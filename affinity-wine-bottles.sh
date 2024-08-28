@@ -5,41 +5,45 @@ command_exists() {
     command -v "$1" &> /dev/null
 }
 
-# Detect the Linux distribution
-if [ -f /etc/os-release ]; then
-    . /etc/os-release
-    OS=$ID
-else
-    echo "Error: Unsupported Linux distribution."
-    exit 1
-fi
+# Function to install Flatpak based on the detected package manager
+install_flatpak() {
+    echo "Flatpak is not installed. Installing Flatpak..."
+    if [ -f /etc/debian_version ]; then
+        sudo apt update && sudo apt install -y flatpak
+    elif [ -f /etc/fedora-release ]; then
+        sudo dnf install -y flatpak
+    elif [ -f /etc/arch-release ]; then
+        sudo pacman -S flatpak --noconfirm
+    elif grep -q openSUSE /etc/os-release; then
+        sudo zypper install -y flatpak
+    else
+        echo "Error: Unsupported Linux distribution."
+        exit 1
+    fi
+}
 
-# Install Bottles if not installed (only with flatpak)
-if ! command -v bottles-cli &> /dev/null; then
-    echo "Bottles is not installed. Installing Bottles via Flatpak..."
-    flatpak install -y flathub com.usebottles.bottles
-else
-    echo "Bottles is already installed. Skipping installation."
-fi
+# Function to ensure the custom Wine runner directory exists and clone from GitLab if necessary
+setup_wine_runner() {
+    echo "Setting up Wine runner..."
 
-# Set the Wine Runner path for Flatpak installation of Bottles
-if [ -d "$HOME/.var/app/com.usebottles.bottles" ]; then
-    BOTTLES_RUNNERS_PATH="$HOME/.var/app/com.usebottles.bottles/data/bottles/runners"
-else
-    echo "Error: Could not determine Bottles installation path."
-    exit 1
-fi
+    WINE_DIR="$FULL_PATH/WINE"
+    WINE_SRC_DIR="$WINE_DIR/ElementalWarrior-wine"
+    WINE_RUNNER_PATH="$BOTTLES_RUNNERS_PATH/ElementalWarrior-wine/affinity-photo3-wine9.13-part3"
 
-# Ensure the custom runner directory exists
-CUSTOM_RUNNER="affinity-photo3-wine9.13-part3"
-CUSTOM_RUNNER_PATH="$BOTTLES_RUNNERS_PATH/$CUSTOM_RUNNER"
-if [ ! -d "$CUSTOM_RUNNER_PATH" ]; then
-    echo "Custom runner not found. Copying compiled Wine build to Bottles runner directory..."
-    sudo mkdir -p "$CUSTOM_RUNNER_PATH"
-    sudo cp -r "/opt/wines/$CUSTOM_RUNNER/" "$CUSTOM_RUNNER_PATH"
-else
-    echo "Custom runner '$CUSTOM_RUNNER' already exists. Skipping copying."
-fi
+    if [ ! -d "$WINE_SRC_DIR" ]; then
+        echo "Cloning ElementalWarrior's Wine fork..."
+        git clone https://gitlab.winehq.org/ElementalWarrior/wine.git "$WINE_SRC_DIR"
+        cd "$WINE_SRC_DIR" || { echo "Failed to enter directory $WINE_SRC_DIR"; exit 1; }
+        git switch affinity-photo3-wine9.13-part3
+        mkdir -p winewow64-build/ wine-install/
+        cd winewow64-build || { echo "Failed to enter directory winewow64-build"; exit 1; }
+        ../configure --prefix="$WINE_SRC_DIR/wine-install" --enable-archs=i386,x86_64
+        make --jobs 4
+        make install
+    else
+        echo "Wine source already exists. Skipping cloning and building."
+    fi
+}
 
 # Function to install applications into a Bottle
 install_affinity_apps() {
@@ -49,8 +53,8 @@ install_affinity_apps() {
 
     echo "Checking if bottle '$bottle_name' exists..."
     if ! bottles-cli list | grep -q "$bottle_name"; then
-        echo "Creating a new bottle for $bottle_name with custom runner '$CUSTOM_RUNNER'..."
-        bottles-cli new --bottle-name "$bottle_name" --environment wine --arch win64 --runner "$CUSTOM_RUNNER"
+        echo "Creating a new bottle for $bottle_name with custom runner '$WINE_RUNNER'..."
+        bottles-cli new --bottle-name "$bottle_name" --environment wine --arch win64 --runner "$WINE_RUNNER"
         if [ $? -ne 0 ]; then
             echo "Error: Failed to create the bottle '$bottle_name'."
             exit 1
@@ -94,6 +98,40 @@ install_affinity_apps() {
     echo "Copying WinMetadata files..."
     cp -r "$HOME/WINE/WinMetadata/" "$HOME/.local/share/bottles/bottles/$bottle_name/drive_c/windows/system32/WinMetadata"
 }
+
+# Main script execution starts here
+
+# Check if Flatpak is installed, install if not
+if ! command_exists flatpak; then
+    install_flatpak
+fi
+
+# Set the Bottles runner path for Flatpak installation
+BOTTLES_RUNNERS_PATH="$HOME/.var/app/com.usebottles.bottles/data/bottles/runners"
+
+if [ ! -d "$BOTTLES_RUNNERS_PATH" ]; then
+    echo "Error: Could not determine Bottles installation path."
+    exit 1
+fi
+
+# Get the full absolute path of the user's home directory
+if command_exists realpath; then
+    FULL_PATH=$(realpath "$HOME")
+else
+    FULL_PATH="/home/$(whoami)"
+fi
+
+# Install Bottles if not installed (only with Flatpak)
+if ! command_exists bottles-cli; then
+    echo "Bottles is not installed. Installing Bottles via Flatpak..."
+    flatpak install -y flathub com.usebottles.bottles
+else
+    echo "Bottles is already installed. Skipping installation."
+fi
+
+# Set up the Wine runner
+setup_wine_runner
+echo "Setup complete."
 
 # Execute application installation
 install_affinity_apps
