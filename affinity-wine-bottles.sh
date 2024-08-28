@@ -106,21 +106,6 @@ if ! command_exists flatpak; then
     install_flatpak
 fi
 
-# Set the Bottles runner path for Flatpak installation
-BOTTLES_RUNNERS_PATH="$HOME/.var/app/com.usebottles.bottles/data/bottles/runners"
-
-if [ ! -d "$BOTTLES_RUNNERS_PATH" ]; then
-    echo "Error: Could not determine Bottles installation path."
-    exit 1
-fi
-
-# Get the full absolute path of the user's home directory
-if command_exists realpath; then
-    FULL_PATH=$(realpath "$HOME")
-else
-    FULL_PATH="/home/$(whoami)"
-fi
-
 # Install Bottles if not installed (only with Flatpak)
 if ! command_exists bottles-cli; then
     echo "Bottles is not installed. Installing Bottles via Flatpak..."
@@ -129,9 +114,11 @@ else
     echo "Bottles is already installed. Skipping installation."
 fi
 
-# Set up the Wine runner
+# Before creating the bottle, set up the Wine runner
 setup_wine_runner
-echo "Setup complete."
+
+# Set the Bottles runner path for Flatpak installation
+BOTTLES_RUNNERS_PATH="$HOME/.var/app/com.usebottles.bottles/data/bottles/runners"
 
 # Execute application installation
 install_affinity_apps
