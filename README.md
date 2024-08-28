@@ -14,11 +14,11 @@ As these applications were not developed for Linux and the FOSS alternatives are
 
 One of the big projects that permit to run Windows software on Linux is [WINE](https://en.wikipedia.org/wiki/Wine_(software)) a free and open-source compatibility layer to allow application software and computer games developed for Microsoft Windows to run on Unix-like operating systems.
 
-Because there are many Windows apps and very different one from an other, with dependencies, fonts, frameworks configure WINE is a very difficult job. So for that reason graphical Wine prefix
-and managers has emerged some examples are [Bottles](https://usebottles.com/), [rum](https://gitlab.com/xkero/rum), [Play On Linux](https://www.playonlinux.com/en/) or [Proton](https://github.com/ValveSoftware/Proton) to play Steam games on Linux-based operating system.
+Because there are many Windows applications and they are very different from each other, with dependencies, fonts, frameworks, configuring WINE is a very difficult job. For this reason graphical Wine prefixes and managers have emerged, some examples for apps are [Bottles](https://usebottles.com/), [rum](https://gitlab.com/xkero/rum), [CrossOver](https://www.codeweavers.com/crossover/) and for gaming [Lutris](https://lutris.net/), [Play On Linux](https://www.playonlinux.com/en/) or [Proton](https://github.com/ValveSoftware/Proton) to play Steam games on Linux-based operating systems.
 
 
 ## Requeriments to execute the script:
+- This script is only for Arch Linux (Right now) crated from 
 - Download affinity apps executables (.exe) from the [official website](https://affinity.serif.com/en-us/). There are trial version and the payment is only one time (better than PhotoShop).
 - Copy .winmd files from Windows 10/11 "C:/windows/system32/WinMetadata"
 - Create a folder WINE on your home (homwe/username/WINE)
@@ -63,12 +63,12 @@ You should have these folders and files under /home/Your-Username/WINE.
 > [!WARNING]
 > Review the bash script and execute at your own risk
 
-There are two options:
+There are two options adapted from the [Affinity Wine Docs](https://affinity.liz.pet/docs/1-intro.html) which use [ElementalWarrior's Wine fork](https://gitlab.winehq.org/ElementalWarrior/wine/-/tree/affinity-photo3-wine9.13-part3):
 
 1. Use WINE with [rum](https://gitlab.com/xkero/rum) (recommended)
     - Download and execute the script [affinity-wine-rum.sh](affinity-wine-rum.sh) running `sh affinity-wine-rum.sh`
 
-2. Use WINE with [Bottles](https://usebottles.com/) import the configuration or do it manually and execute the script [affinity-wine-bottles.sh](affinity-wine-bottles.sh) running `sh affinity-wine-bottles.sh`
+2. Use WINE with [Bottles](https://usebottles.com/) import the configuration via [affinty-wine-bottles.yml](./affinty-wine-bottles.yml) or do it manually and execute the script [affinity-wine-bottles.sh](affinity-wine-bottles.sh) running `sh affinity-wine-bottles.sh`
 
 ## Extra: create desktop app
 Create the desktop file launchers. Modify [designer.desktop](designer.desktop), [photo.desktop](photo.desktop), [publisher.desktop](publisher.desktop) changing the "USERNAME" by your name (quick method search & replace in vscode) and add the image as svg to the path of the installation.
@@ -97,6 +97,6 @@ StartupWMClass=Publisher.exe
 
 ## More
 - [ Affinity Suite V2 on Linux [Wine] - Affinity Forum](https://forum.affinity.serif.com/index.php?/topic/182758-affinity-suite-v2-on-linux-wine/page/25/)
-- [Affinity running on Linux with Bottles](https://forum.affinity.serif.com/index.php?/topic/166159-affinity-photo-running-on-linux-with-bottles/page/8/)
+- [Affinity running on Linux with Bottles - Affinity Forum](https://forum.affinity.serif.com/index.php?/topic/166159-affinity-photo-running-on-linux-with-bottles/page/8/)
 - [Tips and fixes - affinity-wine-docs](https://codeberg.org/wanesty/affinity-wine-docs/src/branch/guide-wine9.13-part3/Tips-n-Fixes.md)
 - [Why rum, Why not Bottles? - Wanesty](https://codeberg.org/wanesty/affinity-wine-docs/src/branch/guide-wine9.13-part3/QnA.md)
