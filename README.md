@@ -96,6 +96,7 @@ StartupWMClass=Publisher.exe
 
 
 ## More
+- [Affinity Photo - WineHQ AppDB](https://appdb.winehq.org/objectManager.php?sClass=application&iId=18332)
 - [ Affinity Suite V2 on Linux [Wine] - Affinity Forum](https://forum.affinity.serif.com/index.php?/topic/182758-affinity-suite-v2-on-linux-wine/page/25/)
 - [Affinity running on Linux with Bottles - Affinity Forum](https://forum.affinity.serif.com/index.php?/topic/166159-affinity-photo-running-on-linux-with-bottles/page/8/)
 - [Tips and fixes - affinity-wine-docs](https://codeberg.org/wanesty/affinity-wine-docs/src/branch/guide-wine9.13-part3/Tips-n-Fixes.md)
