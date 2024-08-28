@@ -23,13 +23,11 @@ else
     echo "Bottles is already installed. Skipping installation."
 fi
 
-# Function to select the Affinity packages: designer, photo, publisher
-
-# Function to install Affinity Designer in Bottles
-install_affinity_designer() {
-    local app_name="affinity-designer-1.10.5.exe"
+# Function to install an Affinity product in Bottles
+install_affinity_product() {
+    local app_name="$1"
     local app_path="$HOME/WINE-apps/$app_name"
-    local bottle_name="Affinity-Designer-1.10.5"
+    local bottle_name="${app_name%.exe}"
     local dependencies="dotnet48 corefonts"
     local win_version="win10"
 
@@ -73,8 +71,34 @@ install_affinity_designer() {
     fi
 }
 
-# Install Affinity Designer
-install_affinity_designer
+# Function to select Affinity products to install
+select_affinity_products() {
+    echo "Select the Affinity products to install (e.g., 1 2 3 for all):"
+    echo "1) Affinity Designer"
+    echo "2) Affinity Photo"
+    echo "3) Affinity Publisher"
+    read -p "Enter your choices (separated by space): " -a choices
 
-echo "Installation complete. You can launch Affinity Designer from Bottles or by using the following command:"
-echo "bottles-cli run -b 'Affinity-Designer-1.10.5' -p 'wine $app_path'"
+    for choice in "${choices[@]}"; do
+        case $choice in
+            1)
+                install_affinity_product "affinity-designer-1.10.5.exe"
+                ;;
+            2)
+                install_affinity_product "affinity-photo-1.10.5.exe"
+                ;;
+            3)
+                install_affinity_product "affinity-publisher-1.10.5.exe"
+                ;;
+            *)
+                echo "Invalid choice: $choice"
+                ;;
+        esac
+    done
+}
+
+# Execute product selection and installation
+select_affinity_products
+
+echo "Installation complete. You can launch the Affinity products from Bottles or by using the following command:"
+echo "bottles-cli run -b '<Bottle-Name>' -p 'wine $app_path'"
