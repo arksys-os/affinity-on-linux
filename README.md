@@ -1,6 +1,6 @@
 # Affinity on Linux
 
-![WINE_GOD](./img/wine-god.png)
+![GOD_OF_WINE](./img/affinity-god-of-wine.png)
 
 > [!NOTE]  
 > Thanks to: [Affinity Wine Docs (by wanesty)](https://affinity.liz.pet/) & [tutorial installation (by Mattscreative)](https://www.youtube.com/watch?v=0gB4TdIXCOo)
