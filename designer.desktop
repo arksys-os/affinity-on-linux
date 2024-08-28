@@ -1,0 +1,15 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Affinity Designer 2
+GenericName=Designer on Wine
+Comment=Run Affinity Designer 2 under Wine
+Exec=rum affinity-photo3-wine9.13-part3 /home/d7/.wineAffinity wine '/home/d7/.wineAffinity/drive_c/Program Files/Affinity/Designer 2/Designer.exe'
+Icon=/home/d7/.wineAffinity/drive_c/Program Files/Affinity/Designer 2/designer.svg
+Categories=Graphics
+Keywords=Graphics;2DGraphics;RasterGraphics;VectorGraphics;image;editor;vector;drawing;
+MimeType=application/x-affinity
+NoDisplay=false
+StartupNotify=true
+Terminal=false
+Type=Application
+StartupWMClass=Designer.exe
