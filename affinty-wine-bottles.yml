@@ -1,0 +1,56 @@
+Arch: win64
+Creation_Date:
+Custom_Path: false
+DLL_Overrides: {}
+DXVK:
+Environment: Custom
+Environment_Variables: {}
+Installed_Dependencies:
+  - allfonts
+  - dotnet40
+  - dotnet48
+Language: sys
+Latest_Executables: []
+Name:
+Parameters:
+    custom_dpi: 120
+    discrete_gpu: true
+    dxvk: true
+    dxvk_hud: false
+    dxvk_nvapi: false
+    fixme_logs: false
+    fsr: false
+    fullscreen_capture: false
+    gamemode: false
+    gamescope: false
+    latencyflex: false
+    mangohud: false
+    mouse_warp: false
+    obsvkc: false
+    pulseaudio_latency: false
+    renderer: vulkan
+    sandbox: false
+    sync: wine
+    take_focus: false
+    use_be_runtime: true
+    use_eac_runtime: false
+    use_runtime: true
+    use_steam_runtime: false
+    virtual_desktop: false
+    vkbasalt: false
+    vkd3d: true
+Path:
+Runner: affinity-photo3-wine9.13-part3
+Sandbox:
+    share_net: true
+    share_sound: true
+State: 0
+Uninstallers:
+    allfonts: true
+    dotnet40: Microsoft .NET Framework 4 Extended
+    dotnet48: true
+Update_Date: ''
+VKD3D:
+Versioning: false
+Windows: win10
+WorkingDir: ''
