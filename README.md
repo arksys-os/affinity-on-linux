@@ -8,9 +8,7 @@
 
 The Affinity Suite (Design, Photo, Publisher) is a proprietary design, photo editing and desktop publishing software suite developed for MacOS and Windows by Serif (now a subsidiary of Canva).
 
-These applications are well known for being a real alternative to the Adobe suite such as PhotoShop, Illustrator and InDesign, and are considered better than well-known open source alternatives such as GIMP and Krita.
-
-As these applications were not developed for Linux and the FOSS alternatives are not at the same level, many attempts have been made to configure these applications correctly on Linux.
+These applications are well known for being a real alternative to the Adobe suite such as PhotoShop, Illustrator and InDesign, and are considered better than well-known open source alternatives such as GIMP and Krita. As these applications were not developed for Linux and the FOSS alternatives are not at the same level, many attempts have been made to configure these applications correctly on Linux.
 
 One of the big projects that permit to run Windows software on Linux is [WINE](https://en.wikipedia.org/wiki/Wine_(software)) a free and open-source compatibility layer to allow application software and computer games developed for Microsoft Windows to run on Unix-like operating systems.
 
@@ -18,10 +16,9 @@ Because there are many Windows applications and they are very different from eac
 
 
 ## Requeriments to execute the script:
-- This script is only for Arch Linux (Right now) crated from 
 - Download affinity apps executables (.exe) from the [official website](https://affinity.serif.com/en-us/). There are trial version and the payment is only one time (better than PhotoShop).
-- Copy .winmd files from Windows 10/11 "C:/windows/system32/WinMetadata"
-- Create a folder WINE on your home (homwe/username/WINE)
+- Copy .winmd files from Windows 10/11 "C:/windows/system32/WinMetadata".
+- Create a folder WINE on your home (homwe/username/WINE).
 - Copy the exes and WinMetadata under the "WINE" folder.
 
 You should have these folders and files under /home/Your-Username/WINE.
@@ -59,7 +56,6 @@ You should have these folders and files under /home/Your-Username/WINE.
 
 
 ## Installation via script
-
 > [!WARNING]
 > Review the bash script and execute at your own risk
 
@@ -68,14 +64,18 @@ There are two options adapted from the [Affinity Wine Docs](https://affinity.liz
 1. Use WINE with [rum](https://gitlab.com/xkero/rum) (recommended)
     - Download and execute the script [affinity-wine-rum.sh](affinity-wine-rum.sh) running `sh affinity-wine-rum.sh`
 
-2. Use WINE with [Bottles](https://usebottles.com/) import the configuration via [affinty-wine-bottles.yml](./affinty-wine-bottles.yml) or do it manually and execute the script [affinity-wine-bottles.sh](affinity-wine-bottles.sh) running `sh affinity-wine-bottles.sh`
+2. Use WINE with [Bottles](https://usebottles.com/)
+   - Import the configuration via [affinty-wine-bottles.yml](./affinty-wine-bottles.yml) or do it manually and execute the script [affinity-wine-bottles.sh](affinity-wine-bottles.sh) running `sh affinity-wine-bottles.sh`
 
 ## Extra: create desktop app
-Create the desktop file launchers. Modify [designer.desktop](designer.desktop), [photo.desktop](photo.desktop), [publisher.desktop](publisher.desktop) changing the "USERNAME" by your name (quick method search & replace in vscode) and add the image as svg to the path of the installation.
+Create the desktop file launchers.
+- Modify [designer.desktop](designer.desktop), [photo.desktop](photo.desktop), [publisher.desktop](publisher.desktop)
+  - Change the "USERNAME" by your name (quick method search & replace in vscode)
+  - Add the icon (svg or png) to the path of the installation the icons are on this repo under [img](./img/).
 
-> If are using bottles the command to launch the app won't work, you can adapt it or launch from Bottles
+> If are using bottles the command to launch the app won't work, you need to adapt it or launch from Bottles.
 
-Example for [publisher.desktop](publisher.desktop):
+Example of [publisher.desktop](publisher.desktop):
 ```
 #!/usr/bin/env xdg-open
 [Desktop Entry]
@@ -100,4 +100,4 @@ StartupWMClass=Publisher.exe
 - [ Affinity Suite V2 on Linux [Wine] - Affinity Forum](https://forum.affinity.serif.com/index.php?/topic/182758-affinity-suite-v2-on-linux-wine/page/25/)
 - [Affinity running on Linux with Bottles - Affinity Forum](https://forum.affinity.serif.com/index.php?/topic/166159-affinity-photo-running-on-linux-with-bottles/page/8/)
 - [Tips and fixes - affinity-wine-docs](https://codeberg.org/wanesty/affinity-wine-docs/src/branch/guide-wine9.13-part3/Tips-n-Fixes.md)
-- [Why rum, Why not Bottles? - Wanesty](https://codeberg.org/wanesty/affinity-wine-docs/src/branch/guide-wine9.13-part3/QnA.md)
+- [Why rum instead of Bottles? - Wanesty](https://affinity.liz.pet/docs/misc-QnA.html#q-why-use-rum-instead-of-bottles)
