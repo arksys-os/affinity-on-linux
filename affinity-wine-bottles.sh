@@ -14,40 +14,16 @@ else
     exit 1
 fi
 
-# Install Bottles if not installed
-if ! command_exists bottles-cli; then
-    echo "Bottles is not installed. Installing Bottles..."
-    case "$OS" in
-        arch | manjaro)
-            yay -S bottles --noconfirm
-            ;;
-        debian | ubuntu)
-            sudo apt update && sudo apt install -y bottles
-            ;;
-        fedora)
-            sudo dnf install -y bottles
-            ;;
-        opensuse)
-            sudo zypper install -y bottles
-            ;;
-        *)
-            echo "Error: Unsupported Linux distribution."
-            exit 1
-            ;;
-    esac
-
-    if ! command_exists bottles-cli; then
-        echo "Error: Bottles installation failed. Please check your system and try again."
-        exit 1
-    fi
+# Install Bottles if not installed (only with flatpak)
+if ! command -v bottles-cli &> /dev/null; then
+    echo "Bottles is not installed. Installing Bottles via Flatpak..."
+    flatpak install -y flathub com.usebottles.bottles
 else
     echo "Bottles is already installed. Skipping installation."
 fi
 
-# Set the Wine Runner path based on the Bottles installation type (native or Flatpak)
-if [ -d "$HOME/.local/share/bottles" ]; then
-    BOTTLES_RUNNERS_PATH="$HOME/.local/share/bottles/runners"
-elif [ -d "$HOME/.var/app/com.usebottles.bottles" ]; then
+# Set the Wine Runner path for Flatpak installation of Bottles
+if [ -d "$HOME/.var/app/com.usebottles.bottles" ]; then
     BOTTLES_RUNNERS_PATH="$HOME/.var/app/com.usebottles.bottles/data/bottles/runners"
 else
     echo "Error: Could not determine Bottles installation path."
