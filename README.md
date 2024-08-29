@@ -2,19 +2,19 @@
 
 ![GOD_OF_WINE](./img/affinity-god-of-wine.png)
 
-> [!NOTE]  
-> Thanks to: [Affinity Wine Docs (by wanesty)](https://affinity.liz.pet/) & [tutorial installation (by Mattscreative)](https://www.youtube.com/watch?v=0gB4TdIXCOo)
+> [!NOTE] This is possible thanks to this people:
+- [Affinity Wine Docs (by wanesty)](https://affinity.liz.pet/)
+- [Wine patch for Affinity apps (by ElementalWarrior)](https://gitlab.winehq.org/ElementalWarrior/wine/-/commits/affinity-photo3-wine9.13-part3)
+- [Video installation (by Mattscreative)](https://www.youtube.com/watch?v=0gB4TdIXCOo)
 
 
 ## Brief intro
 
 The Affinity Suite (Design, Photo, Publisher) is a proprietary design, photo editing and desktop publishing software suite developed for MacOS and Windows by Serif (now a subsidiary of Canva).
 
-These applications are well known for being a real alternative to the Adobe suite such as PhotoShop, Illustrator and InDesign, and are considered better than well-known open source alternatives such as GIMP and Krita. As these applications were not developed for Linux and the FOSS alternatives are not at the same level, many attempts have been made to configure these applications correctly on Linux.
+These applications are well known for being good alternatives to the Adobe suite such as PhotoShop, Illustrator and InDesign, and sometimes are considered better than well-known open source alternatives such as GIMP and Krita. As these applications were not developed for Linux and the FOSS alternatives are not at the same level, many attempts have been made to install correctly Affinity apps on Linux.
 
-One of the big projects that permit to run Windows software on Linux is [WINE](https://en.wikipedia.org/wiki/Wine_(software)) a free and open-source compatibility layer to allow application software and computer games developed for Microsoft Windows to run on Unix-like operating systems.
-
-Because there are many Windows applications and they are very different from each other, with dependencies, fonts, frameworks, configuring WINE is a very difficult job. For this reason graphical Wine prefixes and managers have emerged, some examples for apps are [Bottles](https://usebottles.com/), [rum](https://gitlab.com/xkero/rum), [CrossOver](https://www.codeweavers.com/crossover/) and for gaming [Lutris](https://lutris.net/), [Play On Linux](https://www.playonlinux.com/en/) or [Proton](https://github.com/ValveSoftware/Proton) to play Steam games on Linux-based operating systems.
+One of the big projects that permit to run Windows software on Linux is [WINE](https://en.wikipedia.org/wiki/Wine_(software)) "a free and open-source compatibility layer to allow application software and computer games developed for Microsoft Windows to run on Unix-like operating systems". WINE is developed using reverse-engineering to avoid copyright issues, and each application has unique dependencies, making configuration complex. To simplify this GUI wine prefixer exist like [Bottles](https://usebottles.com/), [Lutris](https://lutris.net/), [PlayOnLinux](https://www.playonlinux.com/en/), [Winetricks](https://github.com/Winetricks/winetricks). Also tools based on WINE with custom patches, extra libraries and tweaks are needed for specific cases like games with [Proton](https://github.com/ValveSoftware/Proton) and [Proton-GE](https://github.com/GloriousEggroll/proton-ge-custom) and Affinity apps like [ElementalWarrior Wine](https://gitlab.winehq.org/ElementalWarrior/wine/-/commits/affinity-photo3-wine9.13-part3). 
 
 
 ## Requeriments to execute the script:
@@ -71,13 +71,13 @@ There are two options adapted from the [Affinity Wine Docs](https://affinity.liz
 
 ## Extra: create desktop app
 Create the desktop file launchers.
-- Modify [designer.desktop](designer.desktop), [photo.desktop](photo.desktop), [publisher.desktop](publisher.desktop)
+- Modify [designer.desktop](./desktop/designer.desktop), [photo.desktop](./desktop/photo.desktop), [publisher.desktop](./desktop/publisher.desktop)
   - Change the "USERNAME" by your name (quick method search & replace in vscode)
   - Add the icon (svg or png) to the path of the installation the icons are on this repo under [img](./img/).
 
 > If are using bottles the command to launch the app won't work, you need to adapt it or launch from Bottles.
 
-Example of [publisher.desktop](publisher.desktop):
+Example of [publisher.desktop](./desktop/publisher.desktop):
 ```
 #!/usr/bin/env xdg-open
 [Desktop Entry]
