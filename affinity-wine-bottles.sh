@@ -5,6 +5,13 @@ command_exists() {
     command -v "$1" &> /dev/null
 }
 
+# Function to get the full absolute path of the user's home directory
+if command_exists realpath; then
+    FULL_PATH=$(realpath "$HOME")
+else
+    FULL_PATH="/home/$(whoami)"
+fi
+
 # Function to install Flatpak based on the detected package manager
 install_flatpak() {
     echo "Flatpak is not installed. Installing Flatpak..."
@@ -106,7 +113,7 @@ if ! command_exists flatpak; then
     install_flatpak
 fi
 
-# Install Bottles if not installed (only with Flatpak)
+# Check if Bottles is installed if not install it (only with Flatpak)
 if ! command_exists bottles-cli; then
     echo "Bottles is not installed. Installing Bottles via Flatpak..."
     flatpak install -y flathub com.usebottles.bottles
@@ -114,14 +121,14 @@ else
     echo "Bottles is already installed. Skipping installation."
 fi
 
-# Before creating the bottle, set up the Wine runner
+# Before creating the bottle, set up Wine runner based on affinty branch of ElementalWarrior-wine
 setup_wine_runner
 
 # Set the Bottles runner path for Flatpak installation
 BOTTLES_RUNNERS_PATH="$HOME/.var/app/com.usebottles.bottles/data/bottles/runners"
 
-# Execute application installation
+# Install affinity apps on the bottle
 install_affinity_apps
 
 echo "Installation complete. You can launch the Affinity products from Bottles or by using the following command:"
-echo "bottles-cli run -b 'Affinity-Apps' -p 'wine $HOME/.local/share/bottles/bottles/Affinity-Apps/drive_c/Program Files/Affinity/Designer 2/Designer.exe'"
+echo "bottles-cli run -b 'Affinity-Apps' -p 'wine $HOME/.local/share/bottles/bottles/Affinity-Apps/drive_c/Program Files/Affinity/Photo 2/Photo.exe'"
