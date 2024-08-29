@@ -2,7 +2,8 @@
 
 ![GOD_OF_WINE](./img/affinity-god-of-wine.png)
 
-> [!NOTE] This is possible thanks to this people:
+> [!NOTE]
+> This is possible thanks to this people:
 - [Affinity Wine Docs (by wanesty)](https://affinity.liz.pet/)
 - [Wine patch for Affinity apps (by ElementalWarrior)](https://gitlab.winehq.org/ElementalWarrior/wine/-/commits/affinity-photo3-wine9.13-part3)
 - [Video installation (by Mattscreative)](https://www.youtube.com/watch?v=0gB4TdIXCOo)
@@ -18,6 +19,7 @@ One of the big projects that permit to run Windows software on Linux is [WINE](h
 
 
 ## Requeriments to execute the script:
+> WINE requires Xorg (Window System display server), if you are on Wayland needs the XWayland bridge.
 - Download affinity apps executables (.exe) from the [official website](https://affinity.serif.com/en-us/). There are trial version and the payment is only one time (better than PhotoShop).
 - Copy .winmd files from Windows 10/11 "C:/windows/system32/WinMetadata".
 - Create a folder WINE on your home (homwe/username/WINE).
@@ -123,5 +125,4 @@ StartupWMClass=Publisher.exe
 - [Affinity Photo - WineHQ AppDB](https://appdb.winehq.org/objectManager.php?sClass=application&iId=18332)
 - [ Affinity Suite V2 on Linux [Wine] - Affinity Forum](https://forum.affinity.serif.com/index.php?/topic/182758-affinity-suite-v2-on-linux-wine/page/25/)
 - [Affinity running on Linux with Bottles - Affinity Forum](https://forum.affinity.serif.com/index.php?/topic/166159-affinity-photo-running-on-linux-with-bottles/page/8/)
-- [Tips and fixes - affinity-wine-docs](https://codeberg.org/wanesty/affinity-wine-docs/src/branch/guide-wine9.13-part3/Tips-n-Fixes.md)
-- [Why rum instead of Bottles? - Wanesty](https://affinity.liz.pet/docs/misc-QnA.html#q-why-use-rum-instead-of-bottles)
+- [Why use rum instead of Bottles? - Wanesty](https://affinity.liz.pet/docs/misc-QnA.html#q-why-use-rum-instead-of-bottles)
