@@ -22,7 +22,7 @@ One of the big projects that permit to run Windows software on Linux is [WINE](h
 > WINE requires Xorg (Window System display server), if you are on Wayland needs the XWayland bridge.
 - Download affinity apps executables (.exe) from the [official website](https://affinity.serif.com/en-us/). There are trial version and the payment is only one time (better than PhotoShop).
 - Copy .winmd files from Windows 10/11 "C:/windows/system32/WinMetadata".
-- Create a folder WINE on your home (homwe/username/WINE).
+- Create a folder WINE on your home (home/username/WINE).
 - Copy the exes and WinMetadata under the "WINE" folder.
 
 You should have these folders and files under /home/Your-Username/WINE.
