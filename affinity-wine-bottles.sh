@@ -57,11 +57,12 @@ install_affinity_apps() {
     local bottle_name="Affinity-Apps"
     local dependencies="dotnet48 corefonts"
     local win_version="win10"
+    local WINE_RUNNER="path_to_your_wine_runner"  # Update this with your actual Wine runner path
 
     echo "Checking if bottle '$bottle_name' exists..."
-    if ! bottles-cli list | grep -q "$bottle_name"; then
+    if ! flatpak run --command=bottles-cli com.usebottles.bottles list | grep -q "$bottle_name"; then
         echo "Creating a new bottle for $bottle_name with custom runner '$WINE_RUNNER'..."
-        bottles-cli new --bottle-name "$bottle_name" --environment wine --arch win64 --runner "$WINE_RUNNER"
+        flatpak run --command=bottles-cli com.usebottles.bottles new --bottle-name "$bottle_name" --environment wine --arch win64 --runner "$WINE_RUNNER"
         if [ $? -ne 0 ]; then
             echo "Error: Failed to create the bottle '$bottle_name'."
             exit 1
@@ -71,14 +72,14 @@ install_affinity_apps() {
     fi
 
     echo "Installing dependencies: $dependencies..."
-    bottles-cli run -b "$bottle_name" -p "winetricks $dependencies"
+    flatpak run --command=bottles-cli com.usebottles.bottles run -b "$bottle_name" -p "winetricks $dependencies"
     if [ $? -ne 0 ]; then
         echo "Error: Failed to install dependencies."
         exit 1
     fi
 
     echo "Setting Windows version to $win_version..."
-    bottles-cli run -b "$bottle_name" -p "winecfg -v $win_version"
+    flatpak run --command=bottles-cli com.usebottles.bottles run -b "$bottle_name" -p "winecfg -v $win_version"
     if [ $? -ne 0 ]; then
         echo "Error: Failed to set Windows version to $win_version."
         exit 1
@@ -91,7 +92,7 @@ install_affinity_apps() {
         local app_path="$HOME/WINE-apps/$app"
         if [ -f "$app_path" ]; then
             echo "Running the $app installer..."
-            bottles-cli run -b "$bottle_name" -p "wine $app_path"
+            flatpak run --command=bottles-cli com.usebottles.bottles run -b "$bottle_name" -p "wine $app_path"
             if [ $? -ne 0 ]; then
                 echo "Error: Failed to run the installer for $app."
                 exit 1
@@ -103,7 +104,7 @@ install_affinity_apps() {
 
     # Copy WinMetadata files
     echo "Copying WinMetadata files..."
-    cp -r "$HOME/WINE/WinMetadata/" "$HOME/.local/share/bottles/bottles/$bottle_name/drive_c/windows/system32/WinMetadata"
+    cp -r "$HOME/WINE/WinMetadata/" "$HOME/.var/app/com.usebottles.bottles/data/bottles/$bottle_name/drive_c/windows/system32/WinMetadata"
 }
 
 # Main script execution starts here
