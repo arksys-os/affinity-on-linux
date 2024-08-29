@@ -65,33 +65,35 @@ You should have these folders and files under /home/Your-Username/WINE.
 
 There are two main options adapted from the [Affinity Wine Docs](https://affinity.liz.pet/docs/1-intro.html) which use [ElementalWarrior's Wine fork with the compiled branch affinity-photo3-wine9.13-part3](https://gitlab.winehq.org/ElementalWarrior/wine/-/tree/affinity-photo3-wine9.13-part3):
 
-1. Use WINE with [rum](https://gitlab.com/xkero/rum), simple utility designed to work with Wine prefixes (recommended)
-    - Download and execute the script [affinity-wine-rum.sh](affinity-wine-rum.sh) running `sh affinity-wine-rum.sh`
+### 1. WINE with [rum](https://gitlab.com/xkero/rum) (recommended)
+> [!note]
+> Rum is a simple utility designed to work with Wine prefixes
+- Download and execute the script [affinity-wine-rum.sh](affinity-wine-rum.sh) running `sh affinity-wine-rum.sh`
 
-2. Use WINE with [Bottles](https://usebottles.com/)
-   - Option A. Do it manually, via scripts CLI is not working.
-     - Compile manually ElementalWarior WINE:
-      ```sh
-      git clone https://gitlab.winehq.org/ElementalWarrior/wine.git "$HOME/WINE/ElementalWarrior-wine"
-      cd $HOME/WINE/ElementalWarrior-wine
-      git switch affinity-photo3-wine9.13-part3
-      mkdir -p winewow64-build/ wine-install/
-      cd winewow64-build
-      ../configure --prefix="$HOME/WINE/ElementalWarrior-wine/wine-install" --enable-archs=i386,x86_64
-      make --jobs 4
-      make install
-      ```
-      - Install [Bottles from FlatHub](https://flathub.org/apps/com.usebottles.bottles) if you don't have it, you need flatpak `flatpak install flathub com.usebottles.bottles`.
-      - Add the compiled Wine build as a "runner" in Bottles to this directory
-      ```sh
-      mkdir -p "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3"
-      cp -r "$HOME/WINE/ElementalWarrior-wine/wine-install" "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3/"
-      ```
-      - Open "Bottles" and create a bottle using the "affinity-photo3-wine9.13-part3" runner.
-      - Install winetricks with your package manager and add "dotnet48" running on a terminal `WINEPREFIX="$HOME/.var/app/com.usebottles.bottles/data/bottles/bottles/[bottle-name]" winetricks dotnet48`. Replace [bottle-name] with the name of your bottle.
-      - Install allfonts dependency from Bottles.
-      - Set the "Windows Version" back to win10.
-   - Option B. Execute the script [affinity-wine-bottles.sh](affinity-wine-bottles.sh) running `sh affinity-wine-bottles.sh` (not working)
+### 2. Use WINE with [Bottles](https://usebottles.com/) (not recommended)
+- Option A. Do it manually, via scripts CLI is not working.
+  - Compile manually ElementalWarior WINE:
+   ```sh
+   git clone https://gitlab.winehq.org/ElementalWarrior/wine.git "$HOME/WINE/ElementalWarrior-wine"
+   cd $HOME/WINE/ElementalWarrior-wine
+   git switch affinity-photo3-wine9.13-part3
+   mkdir -p winewow64-build/ wine-install/
+   cd winewow64-build
+   ../configure --prefix="$HOME/WINE/ElementalWarrior-wine/wine-install" --enable-archs=i386,x86_64
+   make --jobs 4
+   make install
+   ```
+   - Install [Bottles from FlatHub](https://flathub.org/apps/com.usebottles.bottles) if you don't have it, you need flatpak `flatpak install flathub com.usebottles.bottles`.
+   - Add the compiled Wine build as a "runner" in Bottles to this directory
+   ```sh
+   mkdir -p "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3"
+   cp -r "$HOME/WINE/ElementalWarrior-wine/wine-install" "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3/"
+   ```
+   - Open "Bottles" and create a bottle using the "affinity-photo3-wine9.13-part3" runner.
+   - Install winetricks with your package manager and add "dotnet48" running on a terminal `WINEPREFIX="$HOME/.var/app/com.usebottles.bottles/data/bottles/bottles/[bottle-name]" winetricks dotnet48`. Replace [bottle-name] with the name of your bottle.
+   - Install allfonts dependency from Bottles.
+   - Set the "Windows Version" back to win10.
+- Option B. Execute the script [affinity-wine-bottles.sh](affinity-wine-bottles.sh) running `sh affinity-wine-bottles.sh` (not working)
 
 ## Extra: create desktop app
 Create the desktop file launchers.
