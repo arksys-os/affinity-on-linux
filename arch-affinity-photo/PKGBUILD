@@ -1,0 +1,83 @@
+# Maintainer: Your Name <your.email@example.com>
+pkgname=affinity-photo-wine
+pkgver=2.5.5
+pkgrel=1
+pkgdesc="Setup Wine to run Affinity Photo using a custom Wine build"
+arch=('x86_64')
+url="https://store.serif.com/en-us/update/windows/photo/2/"
+license=('custom:Serif')
+depends=('alsa-lib' 'alsa-plugins' 'cups' 'desktop-file-utils' 'dosbox' 'ffmpeg' 
+         'fontconfig' 'freetype2' 'gcc-libs' 'gettext' 'giflib' 'gnutls' 
+         'gst-plugins-base-libs' 'gtk3' 'libgphoto2' 'libpcap' 'libpulse' 'libva' 
+         'libxcomposite' 'libxcursor' 'libxi' 'libxinerama' 'libxrandr' 
+         'mingw-w64-gcc' 'opencl-headers' 'opencl-icd-loader' 'samba' 'sane' 
+         'sdl2' 'v4l-utils' 'vulkan-icd-loader' 'wine-mono' 'git' 'winetricks')
+makedepends=('gcc' 'make' 'git')
+
+source=(
+    "affinity-photo-msi-2.5.5.exe::https://d1gl0nrskhax8d.cloudfront.net/windows/photo2/2.5.5/affinity-photo-msi-2.5.5.exe?Expires=1725548817&Signature=R177D3n2cMMB9fMTs1zpaBxWLLn06DyGFf6sFT5NksMIHoz872BELEh30jaOOsulkLD9SXufrrxSopOFG72WJa1~lvsx3h~bDieRjANHLN-EeE9Pzcfuugn76SmvIYl387aa~GpXF5y8fgMfqvnJ9GskrDsln1JHFAbPC~55S~XvOqsnND-PulwZYt~xvXSdECl1mM~IzXbcaKHckQNSpWACPe40hOwflOSwSDIPoAl6~S4pembv5dvvZMg5JBsKGUXQpftlBU7eSMafeQklZfnWi-K2R7vkErzr8OPgzSDM3R8sqS1lHgi2At4ydNnBeeHG~5CBKJaU3WeLgddcmQ__&Key-Pair-Id=APKAIMMPYSI7GSVTEAAQ"
+    "https://gitlab.winehq.org/ElementalWarrior/wine.git"
+)
+sha256sums=('SKIP' 'SKIP')
+
+# Define variables
+_wine_build_dir="${srcdir}/wine-build"
+_wine_install_dir="/opt/wines/affinity-photo-wine"
+_wine_runner="affinity-photo-wine"
+_wine_prefix="$HOME/.wineAffinity"
+
+prepare() {
+    # Clone the custom Wine fork from ElementalWarrior
+    cd "$srcdir"
+    if [ ! -d "${srcdir}/wine" ]; then
+        echo "Cloning ElementalWarrior's Wine fork..."
+        git clone "$srcdir/wine" "$srcdir/wine"
+    fi
+
+    cd "$srcdir/wine"
+    git switch affinity-photo3-wine9.13-part3
+}
+
+build() {
+    # Create build directories and configure Wine for both 32-bit and 64-bit
+    mkdir -p "$_wine_build_dir/winewow64-build"
+    cd "$_wine_build_dir/winewow64-build"
+
+    # Configure for 32-bit and 64-bit architectures
+    ../configure --prefix="$_wine_install_dir" --enable-archs=i386,x86_64
+
+    # Build Wine
+    make --jobs 4
+}
+
+package() {
+    # Install Wine
+    cd "$_wine_build_dir/winewow64-build"
+    make install
+
+    # Install Affinity Photo MSI
+    install -Dm644 "$srcdir/affinity-photo-msi-2.5.5.exe" "$pkgdir/usr/share/affinity-wine/affinity-photo-msi-2.5.5.exe"
+
+   # Copy the WinMetadata directory
+    install -d "$pkgdir/opt/wine/drive_c/windows/system32/WinMetadata"
+    cp -r "$WINE_DIR/WinMetadata/" "$pkgdir/opt/wine/drive_c/windows/system32/WinMetadata"
+   
+    # Create a symlink for wine and wine64
+    install -d "$pkgdir/usr/bin"
+    ln -sf "$pkgdir/$_wine_install_dir/bin/wine" "$pkgdir/usr/bin/wine-affinity"
+    ln -sf "$pkgdir/$_wine_install_dir/bin/wine64" "$pkgdir/usr/bin/wine64-affinity"
+
+    # Install the desktop entry
+    install -Dm644 "$srcdir/photo.desktop" "$pkgdir/usr/share/applications/photo.desktop"
+
+    ### Note: Initialization and application installation are usually done by the user ###
+
+    # Initialize the Wine prefix
+    WINEPREFIX="$_wine_prefix" "$pkgdir/usr/bin/wine-affinity" wineboot --init
+
+    # Install required dependencies for Affinity Photo using winetricks
+    WINEPREFIX="$_wine_prefix" winetricks -q dotnet48 corefonts
+
+    # Install Affinity Photo using Wine
+    WINEPREFIX="$_wine_prefix" "$pkgdir/usr/bin/wine-affinity" "$pkgdir/usr/share/affinity-wine/affinity-photo-msi-2.5.5.exe"
+}

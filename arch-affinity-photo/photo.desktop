@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=Affinity Photo 2
+GenericName=Photo on Wine
+Comment=Run Affinity Photo 2 under Wine
+Exec=rum affinity-photo3-wine9.13-part3 $HOME/.wineAffinity wine '$HOME/.wineAffinity/drive_c/Program Files/Affinity/Photo 2/Photo.exe'
+Icon=$HOME/.wineAffinity/drive_c/Program Files/Affinity/Photo 2/photo.svg
+Categories=Graphics
+Keywords=Graphics;2DGraphics;RasterGraphics;VectorGraphics;image;editor;vector;drawing;
+MimeType=application/x-affinity
+NoDisplay=false
+StartupNotify=true
+Terminal=false
+Type=Application
+StartupWMClass=Photo.exe
