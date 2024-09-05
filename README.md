@@ -20,12 +20,12 @@ One of the big projects that permit to run Windows software on Linux is [WINE](h
 
 ## Requeriments to execute the script:
 > WINE requires Xorg (Window System display server), if you are on Wayland needs the XWayland bridge.
-- Download affinity apps executables (.exe) from the [official website](https://affinity.serif.com/en-us/). There are trial version and the payment is only one time (better than PhotoShop).
+- Download only **".exe"** from the [Affinity (serif) website](https://affinity.serif.com/en-us/) or direclty from the Affinity apps links: [Designer](https://store.serif.com/en-us/update/windows/designer/2/), [Photo](https://store.serif.com/en-us/update/windows/photo/2/), [Publisher](https://store.serif.com/en-us/update/windows/publisher/2/).
 - Copy .winmd files from Windows 10/11 "C:/windows/system32/WinMetadata".
 - Create a folder WINE on your home (home/username/WINE).
 - Copy the exes and WinMetadata under the "WINE" folder.
 
-You should have these folders and files under /home/Your-Username/WINE.
+You should have these folders and files under `/home/Your-Username/WINE`.
 
 ```sh
 ╭─YOUR-USERNAME@SYS in ~/WINE
@@ -63,14 +63,21 @@ You should have these folders and files under /home/Your-Username/WINE.
 > [!WARNING]
 > Review the bash script and execute at your own risk
 
-There are two main options adapted from the [Affinity Wine Docs](https://affinity.liz.pet/docs/1-intro.html) which use [ElementalWarrior's Wine fork with the compiled branch affinity-photo3-wine9.13-part3](https://gitlab.winehq.org/ElementalWarrior/wine/-/tree/affinity-photo3-wine9.13-part3):
+This installation is based on [Affinity Wine Docs](https://affinity.liz.pet/docs/1-intro.html) which use [ElementalWarrior's](https://gitlab.winehq.org/ElementalWarrior/wine/-/tree/affinity-photo3-wine9.13-part3) wine fork.
 
 ### 1. WINE with [rum](https://gitlab.com/xkero/rum) (recommended)
+
 > [!note]
-> Rum is a simple utility designed to work with Wine prefixes
+> Rum is a simple utility designed to work with Wine prefixes. The scirpt works for Arch, Debian, Fedora, OpenSUSE
+
 - Download and execute the script [affinity-wine-rum.sh](affinity-wine-rum.sh) running `sh affinity-wine-rum.sh`
 
+> [!note]
+> For Arch you can also run the PKGBUILD (experimental), but need the 'WinMetada' dir
+
+
 ### 2. Use WINE with [Bottles](https://usebottles.com/) (not recommended)
+
 - Option A. Do it manually, via scripts CLI is not working.
   - Compile manually ElementalWarior WINE:
    ```sh
@@ -93,6 +100,7 @@ There are two main options adapted from the [Affinity Wine Docs](https://affinit
    - Install winetricks with your package manager and add "dotnet48" running on a terminal `WINEPREFIX="$HOME/.var/app/com.usebottles.bottles/data/bottles/bottles/[bottle-name]" winetricks dotnet48`. Replace [bottle-name] with the name of your bottle.
    - Install allfonts dependency from Bottles.
    - Set the "Windows Version" back to win10.
+
 - Option B. Execute the script [affinity-wine-bottles.sh](affinity-wine-bottles.sh) running `sh affinity-wine-bottles.sh` (not working)
 
 ## Extra: create desktop app
