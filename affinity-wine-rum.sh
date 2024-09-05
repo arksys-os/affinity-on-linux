@@ -52,7 +52,7 @@ install_dependencies() {
     fi
 }
 
-# Function to get the full absolute path of the user's home directory
+# Get the full absolute path of the user's home directory
 if command_exists realpath; then
     FULL_PATH=$(realpath "$HOME")
 else
