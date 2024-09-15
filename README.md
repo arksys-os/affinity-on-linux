@@ -70,43 +70,64 @@ This installation is based on [Affinity Wine Docs](https://affinity.liz.pet/docs
 > [!note]
 > Rum is a simple utility designed to work with Wine prefixes. The scirpt works for Arch, Debian, Fedora, OpenSUSE
 
-- Download and execute the script [affinity-wine-rum.sh](affinity-wine-rum.sh) running `sh affinity-wine-rum.sh`
+- Download and execute the script [affinity-wine-rum.sh](./scripts/affinity-wine-rum.sh) running `sh ./scripts/affinity-wine-rum.sh`
 
 > [!note]
-> For Arch you can also run the PKGBUILD (experimental), but need the 'WinMetada' dir
+> For Arch you can also run [affinity-photo-wine-rum-archlinux.sh](./scripts/affinity-photo-wine-rum-archlinux.sh) or try the [arch PKGBUILD](./arch-affinity-photo/) (experimental), but you need the 'WinMetada' dir.
 
 
-### 2. Use WINE with [Bottles](https://usebottles.com/) (not recommended)
+<details>
+  <summary>
+    1. Use WINE with [Bottles](https://usebottles.com/) (not working and not recommended)
+  </summary>
+  <div>
+    <ul>
+    <li>Option A. Do it manually, via scripts CLI.
+        <ul>
+          <li>Compile manually ElementalWarior WINE:
+            <pre>
+              <code class="lang-sh">
+                git clone https://gitlab.winehq.org/ElementalWarrior/wine.git "$HOME/WINE/ElementalWarrior-wine"
+                cd $HOME/WINE/ElementalWarrior-wine
+                git switch affinity-photo3-wine9.13-part3
+                mkdir -p winewow64-build/ wine-install/
+                cd winewow64-build
+                ../configure --prefix="$HOME/WINE/ElementalWarrior-wine/wine-install" --enable-archs=i386,x86_64
+                make --jobs 4
+                make install
+              </code>
+            </pre>
+          </li>
+          <li>Install <a href="https://flathub.org/apps/com.usebottles.bottles">Bottles from FlatHub</a> if you don&#39;t have it, you need flatpak <code>flatpak install flathub com.usebottles.bottles</code>.</li>
+          <li>Add the compiled Wine build as a &quot;runner&quot; in Bottles to this directory
+          <pre>
+            <code>
+              mkdir -p "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3"
+              cp -r "$HOME/WINE/ElementalWarrior-wine/wine-install" "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3/"
+            </code>
+          </pre>
+          </li>
+          <li>Open &quot;Bottles&quot; and create a bottle using the &quot;affinity-photo3-wine9.13-part3&quot; runner.</li>
+          <li>
+            Install winetricks with your package manager and add &quot;dotnet48&quot; running on a terminal
+            <code>WINEPREFIX="$HOME/.var/app/com.usebottles.bottles/data/bottles/bottles/[bottle-name]" winetricks dotnet48</code>. Replace [bottle-name] with the name of your bottle.
+          </li>
+          <li>Install allfonts dependency from Bottles.</li>
+          <li>Set the &quot;Windows Version&quot; back to win10.</li>
+        </ul>
+      </li>
+    </ul>
+    <ul>
+      <li>Option B. Execute the script <a href="./scripts/affinity-wine-bottles.sh">affinity-wine-bottles.sh</a> running <code>sh ./scripts/affinity-wine-bottles.sh</code></li>
+    </ul>
+  </div>
+</details>
 
-- Option A. Do it manually, via scripts CLI is not working.
-  - Compile manually ElementalWarior WINE:
-   ```sh
-   git clone https://gitlab.winehq.org/ElementalWarrior/wine.git "$HOME/WINE/ElementalWarrior-wine"
-   cd $HOME/WINE/ElementalWarrior-wine
-   git switch affinity-photo3-wine9.13-part3
-   mkdir -p winewow64-build/ wine-install/
-   cd winewow64-build
-   ../configure --prefix="$HOME/WINE/ElementalWarrior-wine/wine-install" --enable-archs=i386,x86_64
-   make --jobs 4
-   make install
-   ```
-   - Install [Bottles from FlatHub](https://flathub.org/apps/com.usebottles.bottles) if you don't have it, you need flatpak `flatpak install flathub com.usebottles.bottles`.
-   - Add the compiled Wine build as a "runner" in Bottles to this directory
-   ```sh
-   mkdir -p "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3"
-   cp -r "$HOME/WINE/ElementalWarrior-wine/wine-install" "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3/"
-   ```
-   - Open "Bottles" and create a bottle using the "affinity-photo3-wine9.13-part3" runner.
-   - Install winetricks with your package manager and add "dotnet48" running on a terminal `WINEPREFIX="$HOME/.var/app/com.usebottles.bottles/data/bottles/bottles/[bottle-name]" winetricks dotnet48`. Replace [bottle-name] with the name of your bottle.
-   - Install allfonts dependency from Bottles.
-   - Set the "Windows Version" back to win10.
-
-- Option B. Execute the script [affinity-wine-bottles.sh](affinity-wine-bottles.sh) running `sh affinity-wine-bottles.sh` (not working)
 
 ## Extra: create desktop app
 Create the desktop file launchers.
 - Modify [designer.desktop](./desktop/designer.desktop), [photo.desktop](./desktop/photo.desktop), [publisher.desktop](./desktop/publisher.desktop)
-  - Change the "USERNAME" by your name (quick method search & replace in vscode)
+  - Change "$HOME" by your path "/home/username" (quick method search & replace in vscode)
   - Add the icon (svg or png) to the path of the installation the icons are on this repo under [img](./img/).
 
 > If are using bottles the command to launch the app won't work, you need to adapt it or launch from Bottles.
@@ -118,8 +139,8 @@ Example of [publisher.desktop](./desktop/publisher.desktop):
 Name=Affinity Publisher 2
 GenericName=Publisher on Wine
 Comment=Run Affinity Publisher 2 under Wine
-Exec=rum affinity-photo3-wine9.13-part3 /home/USERNAME/.wineAffinity wine '/home/USERNAME/.wineAffinity/drive_c/Program Files/Affinity/Publisher 2/Publisher.exe'
-Icon=/home/USERNAME/.wineAffinity/drive_c/Program Files/Affinity/Publisher 2/publisher.svg
+Exec=rum affinity-photo3-wine9.13-part3 $HOME/.wineAffinity wine '$HOME/.wineAffinity/drive_c/Program Files/Affinity/Publisher 2/Publisher.exe'
+Icon=$HOME/.wineAffinity/drive_c/Program Files/Affinity/Publisher 2/publisher.svg
 Categories=Graphics
 Keywords=Graphics;
 MimeType=application/x-affinity

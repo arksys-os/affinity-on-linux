@@ -21,8 +21,10 @@ download_link=$(curl -s 'https://store.serif.com/en-us/update/windows/photo/2/' 
 source=(
     "affinity-photo-msi-2.5.5.exe::$download_link"
     "https://gitlab.winehq.org/ElementalWarrior/wine.git"
+    "WinMetadata.zip"
 )
-sha256sums=('SKIP' 'SKIP')
+
+sha256sums=('SKIP' 'SKIP' 'SKIP')
 
 # Define variables
 _wine_build_dir="${srcdir}/wine-build"
@@ -40,6 +42,15 @@ prepare() {
 
     cd "$srcdir/wine"
     git switch affinity-photo3-wine9.13-part3
+
+    # Extract WinMetadata.zip
+    if [ -f "$srcdir/WinMetadata.zip" ]; then
+        echo "Extracting WinMetadata.zip..."
+        unzip "$srcdir/WinMetadata.zip" -d "$srcdir/WinMetadata"
+    else
+        echo "WinMetadata.zip not found!"
+        exit 1
+    fi
 }
 
 build() {
@@ -62,11 +73,16 @@ package() {
     # Install Affinity Photo MSI
     install -Dm644 "$srcdir/affinity-photo-msi-2.5.5.exe" "$pkgdir/usr/share/affinity-wine/affinity-photo-msi-2.5.5.exe"
 
-    # Copy the WinMetadata directory
-    install -d "$pkgdir/opt/wine/drive_c/windows/system32/WinMetadata"
-    cp -r "$WINE_DIR/WinMetadata/" "$pkgdir/opt/wine/drive_c/windows/system32/WinMetadata"
-   
-    # Create a symlink for wine and wine64
+    # Copy the WinMetadata directory to the Wine prefix
+    if [ -d "$srcdir/WinMetadata" ]; then
+        echo "Copying WinMetadata to the Wine prefix directory..."
+        install -d "$WINEPREFIX/drive_c/windows/system32/WinMetadata"
+        cp -r "$srcdir/WinMetadata/" "$WINEPREFIX/drive_c/windows/system32/WinMetadata"
+    else
+        echo "WinMetadata directory not found!"
+    fi
+
+    # Create symlinks for wine and wine64
     install -d "$pkgdir/usr/bin"
     ln -sf "$pkgdir/$_wine_install_dir/bin/wine" "$pkgdir/usr/bin/wine-affinity"
     ln -sf "$pkgdir/$_wine_install_dir/bin/wine64" "$pkgdir/usr/bin/wine64-affinity"
