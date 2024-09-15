@@ -1,8 +1,8 @@
 # Maintainer: Your Name <your.email@example.com>
-pkgname=affinity-photo-wine
+pkgname=affinity-photo
 pkgver=2.5.5
 pkgrel=1
-pkgdesc="Setup Wine to run Affinity Photo using a custom Wine build"
+pkgdesc="Raster graphics editor developed by Serif"
 arch=('x86_64')
 url="https://store.serif.com/en-us/update/windows/photo/2/"
 license=('custom:Serif')
@@ -14,8 +14,12 @@ depends=('alsa-lib' 'alsa-plugins' 'cups' 'desktop-file-utils' 'dosbox' 'ffmpeg'
          'sdl2' 'v4l-utils' 'vulkan-icd-loader' 'wine-mono' 'git' 'winetricks')
 makedepends=('gcc' 'make' 'git')
 
+# Fetch and extract the dynamic URL from Serif's update page
+download_link=$(curl -s 'https://store.serif.com/en-us/update/windows/photo/2/' \
+    | sed -n 's/.*href="\([^"]*d1gl0nrskhax8d\.cloudfront\.net\/windows\/photo2\/2\.5\.5\/affinity-photo-msi-2\.5\.5\.exe?Expires[^"]*\)".*/\1/p')
+
 source=(
-    "affinity-photo-msi-2.5.5.exe::https://d1gl0nrskhax8d.cloudfront.net/windows/photo2/2.5.5/affinity-photo-msi-2.5.5.exe?Expires=1725548817&Signature=R177D3n2cMMB9fMTs1zpaBxWLLn06DyGFf6sFT5NksMIHoz872BELEh30jaOOsulkLD9SXufrrxSopOFG72WJa1~lvsx3h~bDieRjANHLN-EeE9Pzcfuugn76SmvIYl387aa~GpXF5y8fgMfqvnJ9GskrDsln1JHFAbPC~55S~XvOqsnND-PulwZYt~xvXSdECl1mM~IzXbcaKHckQNSpWACPe40hOwflOSwSDIPoAl6~S4pembv5dvvZMg5JBsKGUXQpftlBU7eSMafeQklZfnWi-K2R7vkErzr8OPgzSDM3R8sqS1lHgi2At4ydNnBeeHG~5CBKJaU3WeLgddcmQ__&Key-Pair-Id=APKAIMMPYSI7GSVTEAAQ"
+    "affinity-photo-msi-2.5.5.exe::$download_link"
     "https://gitlab.winehq.org/ElementalWarrior/wine.git"
 )
 sha256sums=('SKIP' 'SKIP')
@@ -58,7 +62,7 @@ package() {
     # Install Affinity Photo MSI
     install -Dm644 "$srcdir/affinity-photo-msi-2.5.5.exe" "$pkgdir/usr/share/affinity-wine/affinity-photo-msi-2.5.5.exe"
 
-   # Copy the WinMetadata directory
+    # Copy the WinMetadata directory
     install -d "$pkgdir/opt/wine/drive_c/windows/system32/WinMetadata"
     cp -r "$WINE_DIR/WinMetadata/" "$pkgdir/opt/wine/drive_c/windows/system32/WinMetadata"
    
