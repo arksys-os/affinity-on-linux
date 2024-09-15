@@ -3,15 +3,15 @@
 # Script to install Affinity Photo on Arch Linux
 # Adapted from: https://codeberg.org/Wanesty/affinity-wine-docs
 #
-# Prerequisites files goees under "/home/your-user/WINE" (directory to group content):
-# Affnity Photo executable: $HOME/WINE/affinity-photo-msi-2.x.x.exe
-# Directory containing the necessary WinMetadata files: $HOME/WINE/WinMetadata/
+# Prerequisites:
+# Create WINE dir to group content "$HOME/WINE": mkdir "$HOME/WINE"
+# Download Affnity Photo executable on WINE: $HOME/WINE/affinity-photo-msi-2.x.x.exe
+# Copy WinMetadata dir on WINE dir: $HOME/WINE/WinMetadata/
 #
 # To update an app with WINE, you need:
 # update system, rum and wine (optional)
 # download new app version "affinity-photo-msi-2.x.x.exe" and copy under the WINE folder $HOME/WINE/
 # launch exe (to reinstall app), just cliking in .desktop: rum affinity-photo3-wine9.13-part3 $HOME/.wineAffinity wine $HOME/WINE/affinity-photo-msi-2.x.x.exe
-
 
 set -e
 

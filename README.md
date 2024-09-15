@@ -68,7 +68,7 @@ This installation is based on [Affinity Wine Docs](https://affinity.liz.pet/docs
 ### 1. WINE with [rum](https://gitlab.com/xkero/rum) (recommended)
 
 > [!NOTE]
-> If you want Affinity Photo under Arch you can just run [affinity-photo-wine-rum-archlinux.sh](./scripts/affinity-photo-wine-rum-archlinux.sh) or try the [arch PKGBUILD](./arch-affinity-photo/), but you need the 'WinMetada' dir.
+> For Affinity Photo under Arch just run [affinity-photo-wine-rum-archlinux.sh](./scripts/affinity-photo-wine-rum-archlinux.sh) or try the [PKGBUILD](./arch-affinity-photo/)
 
 - For the Affinity suite apps under Arch, Debian, Fedora or OpenSUSE download and execute the script [affinity-wine-rum.sh](./scripts/affinity-wine-rum.sh) running `sh ./scripts/affinity-wine-rum.sh`.
 
