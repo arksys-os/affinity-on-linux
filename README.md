@@ -27,14 +27,16 @@ One of the big projects that permit to run Windows software on Linux is [WINE](h
 
 You should have these folders and files under `/home/Your-Username/WINE`.
 
-```sh
+<details>
+<summary>Directory tree:</summary>
+<pre><code>
 ╭─YOUR-USERNAME@SYS in ~/WINE
 ╰─λ tree
 .
 ├── apps
-│   ├── affinity-designer-msi-2.5.3.exe
-│   ├── affinity-photo-msi-2.5.3.exe
-│   └── affinity-publisher-msi-2.5.3.exe
+│   ├── affinity-designer-msi-2.5.3.exe
+│   ├── affinity-photo-msi-2.5.3.exe
+│   └── affinity-publisher-msi-2.5.3.exe
 └── WinMetadata
     ├── Windows.AI.winmd
     ├── Windows.ApplicationModel.winmd
@@ -56,8 +58,8 @@ You should have these folders and files under `/home/Your-Username/WINE`.
     ├── Windows.UI.winmd
     ├── Windows.UI.Xaml.winmd
     └── Windows.Web.winmd
-```
-
+</code></pre>
+</details>
 
 ## Installation via script
 > [!WARNING]
@@ -67,18 +69,14 @@ This installation is based on [Affinity Wine Docs](https://affinity.liz.pet/docs
 
 ### 1. WINE with [rum](https://gitlab.com/xkero/rum) (recommended)
 
-> [!note]
-> Rum is a simple utility designed to work with Wine prefixes. The scirpt works for Arch, Debian, Fedora, OpenSUSE
+> [!NOTE]
+> If you want Affinity Photo under Arch you can just run [affinity-photo-wine-rum-archlinux.sh](./scripts/affinity-photo-wine-rum-archlinux.sh) or try the [arch PKGBUILD](./arch-affinity-photo/), but you need the 'WinMetada' dir.
 
-- Download and execute the script [affinity-wine-rum.sh](./scripts/affinity-wine-rum.sh) running `sh ./scripts/affinity-wine-rum.sh`
-
-> [!note]
-> For Arch you can also run [affinity-photo-wine-rum-archlinux.sh](./scripts/affinity-photo-wine-rum-archlinux.sh) or try the [arch PKGBUILD](./arch-affinity-photo/) (experimental), but you need the 'WinMetada' dir.
-
+- For Affinity apps under Arch, Debian, Fedora or OpenSUSE download and execute the script [affinity-wine-rum.sh](./scripts/affinity-wine-rum.sh) running `sh ./scripts/affinity-wine-rum.sh`.
 
 <details>
   <summary>
-    1. Use WINE with [Bottles](https://usebottles.com/) (not working and not recommended)
+    <b>2. Use WINE with <a href="https://usebottles.com/">Bottles</a> (not working)</b>
   </summary>
   <div>
     <ul>
@@ -133,23 +131,6 @@ Create the desktop file launchers.
 > If are using bottles the command to launch the app won't work, you need to adapt it or launch from Bottles.
 
 Example of [publisher.desktop](./desktop/publisher.desktop):
-```
-#!/usr/bin/env xdg-open
-[Desktop Entry]
-Name=Affinity Publisher 2
-GenericName=Publisher on Wine
-Comment=Run Affinity Publisher 2 under Wine
-Exec=rum affinity-photo3-wine9.13-part3 $HOME/.wineAffinity wine '$HOME/.wineAffinity/drive_c/Program Files/Affinity/Publisher 2/Publisher.exe'
-Icon=$HOME/.wineAffinity/drive_c/Program Files/Affinity/Publisher 2/publisher.svg
-Categories=Graphics
-Keywords=Graphics;
-MimeType=application/x-affinity
-NoDisplay=false
-StartupNotify=true
-Terminal=false
-Type=Application
-StartupWMClass=Publisher.exe
-```
 
 
 ## More
