@@ -21,15 +21,12 @@ One of the big projects that permit to run Windows software on Linux is [WINE](h
 ## Requeriments
 > [!NOTE]
 > WINE requires Xorg (Window System display server), if you are on Wayland needs the XWayland bridge.
-- Download only **".exe"** from the [Affinity (serif) website](https://affinity.serif.com/en-us/) or direclty from the Affinity apps links: [Designer](https://store.serif.com/en-us/update/windows/designer/2/), [Photo](https://store.serif.com/en-us/update/windows/photo/2/), [Publisher](https://store.serif.com/en-us/update/windows/publisher/2/).
-- Copy .winmd files from Windows 10/11 "C:/windows/system32/WinMetadata".
-- Create a folder WINE on your home (home/username/WINE).
-- Copy the exes and WinMetadata under the "WINE" folder.
-
-You should have these folders and files under `/home/Your-Username/WINE`.
+- Create a folder "WINE" on your $HOME (home/username/WINE) to group content for the script.
+- Download **".exe"** apps from here [Designer](https://store.serif.com/en-us/update/windows/designer/2/), [Photo](https://store.serif.com/en-us/update/windows/photo/2/), [Publisher](https://store.serif.com/en-us/update/windows/publisher/2/) and copy under "$HOME/WINE/apps" directory.
+- Copy WinMetadata directory from Windows 10/11 "C:/windows/system32/WinMetadata" to "WINE" directory.
 
 <details>
-<summary>Directory tree:</summary>
+<summary>You should have these folders and files under `/home/Your-Username/WINE`:</summary>
 <pre><code>
 ╭─YOUR-USERNAME@SYS in ~/WINE
 ╰─λ tree
