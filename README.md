@@ -2,13 +2,13 @@
 
 ![GOD_OF_WINE](./img/affinity-god-of-wine.png)
 
-> [!NOTE]
-> This is possible thanks to this people:
+This is possible thanks to:
 - [Affinity Wine Docs (by wanesty)](https://affinity.liz.pet/)
 - [Wine patch for Affinity apps (by ElementalWarrior)](https://gitlab.winehq.org/ElementalWarrior/wine/-/commits/affinity-photo3-wine9.13-part3)
-- [Video installation (by Mattscreative)](https://www.youtube.com/watch?v=0gB4TdIXCOo)
+- [WINE (compatibilit layer)](https://www.winehq.org/)
+<!-- - [Video installation (by Mattscreative)](https://www.youtube.com/watch?v=0gB4TdIXCOo) -->
 
-
+<!--
 ## Brief intro
 
 The Affinity Suite (Design, Photo, Publisher) is a proprietary design, photo editing and desktop publishing software suite developed for MacOS and Windows by Serif (now a subsidiary of Canva).
@@ -16,7 +16,7 @@ The Affinity Suite (Design, Photo, Publisher) is a proprietary design, photo edi
 These applications are well known for being good alternatives to the Adobe suite such as PhotoShop, Illustrator and InDesign, and sometimes are considered better than well-known open source alternatives such as GIMP and Krita. As these applications were not developed for Linux and the FOSS alternatives are not at the same level, many attempts have been made to install correctly Affinity apps on Linux.
 
 One of the big projects that permit to run Windows software on Linux is [WINE](https://en.wikipedia.org/wiki/Wine_(software)) "a free and open-source compatibility layer to allow application software and computer games developed for Microsoft Windows to run on Unix-like operating systems". WINE is developed using reverse-engineering to avoid copyright issues, and each application has unique dependencies, making configuration complex. To simplify this GUI wine prefixer exist like [Bottles](https://usebottles.com/), [Lutris](https://lutris.net/), [PlayOnLinux](https://www.playonlinux.com/en/), [Winetricks](https://github.com/Winetricks/winetricks). Also tools based on WINE with custom patches, extra libraries and tweaks are needed for specific cases like games with [Proton](https://github.com/ValveSoftware/Proton) and [Proton-GE](https://github.com/GloriousEggroll/proton-ge-custom) and Affinity apps like [ElementalWarrior Wine](https://gitlab.winehq.org/ElementalWarrior/wine/-/commits/affinity-photo3-wine9.13-part3). 
-
+-->
 
 ## Requeriments to execute the script:
 > WINE requires Xorg (Window System display server), if you are on Wayland needs the XWayland bridge.
