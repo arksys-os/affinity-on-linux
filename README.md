@@ -18,7 +18,8 @@ These applications are well known for being good alternatives to the Adobe suite
 One of the big projects that permit to run Windows software on Linux is [WINE](https://en.wikipedia.org/wiki/Wine_(software)) "a free and open-source compatibility layer to allow application software and computer games developed for Microsoft Windows to run on Unix-like operating systems". WINE is developed using reverse-engineering to avoid copyright issues, and each application has unique dependencies, making configuration complex. To simplify this GUI wine prefixer exist like [Bottles](https://usebottles.com/), [Lutris](https://lutris.net/), [PlayOnLinux](https://www.playonlinux.com/en/), [Winetricks](https://github.com/Winetricks/winetricks). Also tools based on WINE with custom patches, extra libraries and tweaks are needed for specific cases like games with [Proton](https://github.com/ValveSoftware/Proton) and [Proton-GE](https://github.com/GloriousEggroll/proton-ge-custom) and Affinity apps like [ElementalWarrior Wine](https://gitlab.winehq.org/ElementalWarrior/wine/-/commits/affinity-photo3-wine9.13-part3). 
 -->
 
-## Requeriments to execute the script:
+## Requeriments
+> [!NOTE]
 > WINE requires Xorg (Window System display server), if you are on Wayland needs the XWayland bridge.
 - Download only **".exe"** from the [Affinity (serif) website](https://affinity.serif.com/en-us/) or direclty from the Affinity apps links: [Designer](https://store.serif.com/en-us/update/windows/designer/2/), [Photo](https://store.serif.com/en-us/update/windows/photo/2/), [Publisher](https://store.serif.com/en-us/update/windows/publisher/2/).
 - Copy .winmd files from Windows 10/11 "C:/windows/system32/WinMetadata".
@@ -61,7 +62,7 @@ You should have these folders and files under `/home/Your-Username/WINE`.
 </code></pre>
 </details>
 
-## Installation via script
+## Installation
 > [!WARNING]
 > Review the bash script and execute at your own risk
 
@@ -72,7 +73,7 @@ This installation is based on [Affinity Wine Docs](https://affinity.liz.pet/docs
 > [!NOTE]
 > If you want Affinity Photo under Arch you can just run [affinity-photo-wine-rum-archlinux.sh](./scripts/affinity-photo-wine-rum-archlinux.sh) or try the [arch PKGBUILD](./arch-affinity-photo/), but you need the 'WinMetada' dir.
 
-- For Affinity apps under Arch, Debian, Fedora or OpenSUSE download and execute the script [affinity-wine-rum.sh](./scripts/affinity-wine-rum.sh) running `sh ./scripts/affinity-wine-rum.sh`.
+- For the Affinity suite apps under Arch, Debian, Fedora or OpenSUSE download and execute the script [affinity-wine-rum.sh](./scripts/affinity-wine-rum.sh) running `sh ./scripts/affinity-wine-rum.sh`.
 
 <details>
   <summary>
@@ -123,14 +124,12 @@ This installation is based on [Affinity Wine Docs](https://affinity.liz.pet/docs
 
 
 ## Extra: create desktop app
-Create the desktop file launchers.
-- Modify [designer.desktop](./desktop/designer.desktop), [photo.desktop](./desktop/photo.desktop), [publisher.desktop](./desktop/publisher.desktop)
-  - Change "$HOME" by your path "/home/username" (quick method search & replace in vscode)
-  - Add the icon (svg or png) to the path of the installation the icons are on this repo under [img](./img/).
 
 > If are using bottles the command to launch the app won't work, you need to adapt it or launch from Bottles.
 
-Example of [publisher.desktop](./desktop/publisher.desktop):
+- Modify [designer.desktop](./desktop/designer.desktop), [photo.desktop](./desktop/photo.desktop), [publisher.desktop](./desktop/publisher.desktop)
+  - Change "$HOME" by your path "/home/username" (quick method search & replace in vscode)
+  - Add the icon (svg or png) to the path of the installation. (You can copy icons from here [img](./img/))
 
 
 ## More
