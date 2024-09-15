@@ -120,7 +120,7 @@ This installation is based on [Affinity Wine Docs](https://affinity.liz.pet/docs
 </details>
 
 
-## Extra: create desktop app
+## Extra: create desktop shortcut
 
 > If are using bottles the command to launch the app won't work, you need to adapt it or launch from Bottles.
 
