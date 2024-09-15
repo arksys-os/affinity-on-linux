@@ -124,9 +124,9 @@ This installation is based on [Affinity Wine Docs](https://affinity.liz.pet/docs
 
 > If are using bottles the command to launch the app won't work, you need to adapt it or launch from Bottles.
 
-- Modify [designer.desktop](./desktop/designer.desktop), [photo.desktop](./desktop/photo.desktop), [publisher.desktop](./desktop/publisher.desktop)
-  - Change "$HOME" by your path "/home/username" (quick method search & replace in vscode)
-  - Add the icon (svg or png) to the path of the installation. (You can copy icons from here [img](./img/))
+Modify [designer.desktop](./desktop/designer.desktop), [photo.desktop](./desktop/photo.desktop), [publisher.desktop](./desktop/publisher.desktop):
+- Change "$HOME" by your path "/home/username" (quick method search & replace in vscode)
+- Add the icon (svg or png) to the path of the installation. (You can copy icons from here [img](./img/))
 
 
 ## More
