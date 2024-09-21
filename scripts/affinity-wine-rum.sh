@@ -11,41 +11,19 @@ install_dependencies() {
     if [ -f /etc/arch-release ]; then
         echo "Detected Arch Linux system. Installing dependencies..."
         sudo pacman -Syu --needed \
-            alsa-lib alsa-plugins cups desktop-file-utils dosbox ffmpeg fontconfig \
-            freetype2 gcc-libs gettext giflib gnutls gst-plugins-base-libs gtk3 \
-            libgphoto2 libpcap libpulse libva libxcomposite libxcursor libxi \
-            libxinerama libxrandr mingw-w64-gcc opencl-headers opencl-icd-loader samba \
-            sane sdl2 v4l-utils vulkan-icd-loader wine-mono
+            alsa-lib alsa-plugins autoconf bison cups desktop-file-utils flex fontconfig freetype2 gcc-libs gettext gnutls gst-plugins-bad gst-plugins-base gst-plugins-base-libs gst-plugins-good gst-plugins-ugly libcups libgphoto2 libpcap libpulse libunwind libxcomposite libxcursor libxi libxinerama libxkbcommon libxrandr libxxf86vm mesa mesa-libgl mingw-w64-gcc opencl-headers opencl-icd-loader pcsclite perl samba sane sdl2 unixodbc v4l-utils vulkan-headers vulkan-icd-loader wayland wine-gecko wine-mono
     elif [ -f /etc/debian_version ]; then
         echo "Detected Debian-based system. Installing dependencies..."
         sudo apt update && sudo apt install -y \
-            gcc-mingw-w64 gcc-multilib libasound2-dev libcups2-dev libdbus-1-dev \
-            libfontconfig-dev libfreetype-dev libgl-dev libgnutls28-dev libgphoto2-dev \
-            libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev libosmesa6-dev \
-            libpcap-dev libpulse-dev libsane-dev libsdl2-dev libudev-dev libunwind-dev \
-            libusb-1.0-0-dev libvulkan-dev libx11-dev libxcomposite-dev libxcursor-dev \
-            libxext-dev libxfixes-dev libxi-dev libxrandr-dev libxrender-dev \
-            ocl-icd-opencl-dev samba-dev
+            bison dctrl-tools flex fontforge-nox freeglut3-dev gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 gettext icoutils imagemagick libasound2-dev libcapi20-dev libcups2-dev libdbus-1-dev libfontconfig-dev libfreetype-dev libgettextpo-dev libgl-dev libglu1-mesa-dev libgnutls28-dev libgphoto2-dev libgstreamer-plugins-base1.0-dev  libkrb5-dev libldap2-dev libncurses-dev libopenal-dev libosmesa6-dev libpcap0.8-dev libpcsclite-dev libpulse-dev librsvg2-bin libsdl2-dev libssl-dev libudev-dev libunwind-dev libusb-1.0-0-dev libv4l-dev libvulkan-dev libwayland-dev libx11-dev libxcomposite-dev libxcursor-dev libxext-dev libxfixes-dev libxi-dev libxinerama-dev libxkbfile-dev libxkbregistry-dev libxml-libxml-perl libxmu-dev libxrandr-dev libxrender-dev libxt-dev libxxf86dga-dev libxxf86vm-dev libz-mingw-w64-dev lzma ocl-icd-opencl-dev pkg-config quilt sharutils unicode-idna unixodbc-dev unzip
     elif [ -f /etc/fedora-release ]; then
         echo "Detected Fedora system. Installing dependencies..."
         sudo dnf install -y \
-            alsa-lib-devel cups-devel dbus-libs fontconfig-devel freetype-devel \
-            glibc-devel.i686 gnutls-devel gstreamer1-devel gstreamer1-plugins-base-devel \
-            libgphoto2-devel libunwind-devel libusbx-devel libX11-devel libXcomposite-devel \
-            libXcursor-devel libXext-devel libXfixes-devel libXi-devel libXrandr-devel \
-            libXrender-devel mesa-libGL-devel mesa-libOSMesa-devel mingw32-gcc mingw64-gcc \
-            ocl-icd-devel samba-devel sane-backends-devel SDL2-devel vulkan-headers \
-            vulkan-loader vulkan-loader-devel
+            alsa-lib-devel audiofile-devel autoconf bison chrpath cups-devel dbus-devel desktop-file-utils flex fontconfig-devel fontforge fontpackages-devel freeglut-devel freetype-devel gcc gettext-devel giflib-devel gnutls-devel gsm-devel gstreamer1-devel gstreamer1-plugins-base-devel icoutils libappstream-glib libgphoto2-devel libieee1284-devel libpcap-devel librsvg2 librsvg2-devel libstdc++-devel libv4l-devel libX11-devel libXcomposite-devel libXcursor-devel libXext-devel libXi-devel libXinerama-devel libXmu-devel libXrandr-devel libXrender-devel libXxf86dga-devel libXxf86vm-devel make mesa-libGL-devel mesa-libGLU-devel mesa-libOSMesa-devel mingw32-FAudio mingw32-gcc mingw32-lcms2 mingw32-libpng mingw32-libtiff mingw32-libxml2 mingw32-libxslt	 mingw32-vkd3d mingw32-vulkan-headers mingw64-FAudio mingw64-gcc mingw64-lcms2 mingw64-libpng mingw64-libtiff mingw64-libxml2 mingw64-libxslt mingw64-vkd3d mingw64-vulkan-headers mingw64-zlib mpg123-devel ocl-icd-devel opencl-headers openldap-devel perl-generators pulseaudio-libs-devel sane-backends-devel SDL2-devel systemd-devel unixODBC-devel vulkan-devel wine-mono
     elif [ -f /etc/SuSE-release ] || [ -f /etc/SUSE-brand ]; then
         echo "Detected openSUSE system. Installing dependencies..."
         sudo zypper install -y \
-            alsa-lib-devel cups-devel dbus-libs fontconfig-devel freetype-devel \
-            glibc-devel-32bit gnutls-devel gstreamer-devel gstreamer-plugins-base-devel \
-            libgphoto2-devel libOSMesa-devel libunwind-devel libusb-1_0-devel \
-            libusb-compat-devel libX11-devel libXcomposite-devel libXcursor-devel \
-            libXext-devel libXfixes-devel libXi-devel libXrandr-devel libXrender-devel \
-            Mesa-libGL-devel mingw32-gcc mingw64-gcc ocl-icd-devel samba-devel \
-            sane-backends-devel SDL2-devel vulkan-devel vulkan-headers vulkan-tools
+            alsa-devel autoconf bison cups-devel dbus-1-devel desktop-file-utils egl FAudio-devel fdupes flex fontconfig-devel freeglut-devel freetype2-devel giflib-devel git gl glib2-devel glu gstreamer-plugins-base-devel krb5-devel libcapi20-devel libgnutls-devel libgphoto2-devel libgsm-devel libjpeg-devel liblcms2-devel libpcap-devel libpng-devel libpulse-devel libtiff-devel libudev libusb-1.0 libv4l-devel libxml2-devel libxslt-devel mingw32-cross-gcc mingw32-libz mingw32-zlib-devel mingw64-cross-gcc mingw64-zlib-devel mpg123-devel ncurses-devel ocl-icd-devel openal-soft-devel openldap2-devel openssl-devel osmesa pcsc-lite-devel pkgconfig sane-backends-devel SDL2-devel systemd-devel update-desktop-files valgrind-devel vkd3d-devel vulkan-devel vulkan-headers vulkan-tools wayland-client wine-mono x11 x11-xcb xcb xcb-dri3 xcb-present xcb-xfixes xcomposite xcursor xext xfixes xi xinerama xkbcommon xkbregistry xrandr xrender xxf86vm zlib
     else
         echo "Unsupported OS. Please manually install the required dependencies."
         exit 1

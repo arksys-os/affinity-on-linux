@@ -25,11 +25,13 @@ install_dependencies() {
     if [ -f /etc/arch-release ]; then
         echo "Detected Arch Linux system. Installing dependencies..."
         sudo pacman -Syu --needed \
-            alsa-lib alsa-plugins cups desktop-file-utils dosbox ffmpeg fontconfig \
-            freetype2 gcc-libs gettext giflib gnutls gst-plugins-base-libs gtk3 \
-            libgphoto2 libpcap libpulse libva libxcomposite libxcursor libxi \
-            libxinerama libxrandr mingw-w64-gcc opencl-headers opencl-icd-loader samba \
-            sane sdl2 v4l-utils vulkan-icd-loader wine-mono git
+            alsa-lib alsa-plugins autoconf bison cups desktop-file-utils flex \
+            fontconfig freetype2 gcc-libs gettext gnutls gst-plugins-bad \
+            gst-plugins-base gst-plugins-base-libs gst-plugins-good gst-plugins-ugly \
+            libcups libgphoto2 libpcap libpulse libunwind libxcomposite libxcursor libxi \
+            libxinerama libxkbcommon libxrandr libxxf86vm mesa mesa-libgl mingw-w64-gcc \
+            opencl-headers opencl-icd-loader pcsclite perl samba sane sdl2 unixodbc v4l-utils \
+            vulkan-headers vulkan-icd-loader wayland wine-gecko wine-mono
     else
         echo "Unsupported OS. Please manually install the required dependencies."
         exit 1
