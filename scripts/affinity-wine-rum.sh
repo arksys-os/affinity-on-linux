@@ -1,5 +1,17 @@
 #!/bin/bash
-# Script generated from: https://codeberg.org/Wanesty/affinity-wine-docs
+#
+# Script to install Affinity Photo on Arch Linux
+# Adapted from: https://codeberg.org/Wanesty/affinity-wine-docs
+#
+# Prerequisites:
+# Create WINE dir to group downloaded content on "$HOME/WINE"
+# Download Affnity .exe apps and put under "$HOME/WINE/apps/affinity-xxx.exe"
+# Copy WinMetadata from Windows11 "C:/windows/system32/WinMetadata on WINE dir "$HOME/WINE/WinMetadata/"
+#
+# To update an app with WINE, you need:
+# update system, rum and wine (optional)
+# download new app version "affinity-photo-msi-2.x.x.exe" and copy under the WINE folder $HOME/WINE/
+# launch exe (to reinstall app), just cliking in .desktop: rum affinity-photo3-wine9.13-part3 $HOME/.wineAffinity wine $HOME/WINE/affinity-photo-msi-2.x.x.exe
 
 # Function to check if a command exists
 command_exists() {
@@ -97,11 +109,10 @@ rum "$WINE_RUNNER" "$WINE_PREFIX" winecfg -v win11
 echo "Copying WinMetadata files..."
 cp -r $WINE_DIR/WinMetadata/ "$WINE_PREFIX/drive_c/windows/system32/WinMetadata"
 
-# Function to install Affinity applications
+# Function to select which Affinity applications to install
 install_app() {
     local app_name=$1
     local installer_path=$2
-
     echo "Installing $app_name..."
     rum $WINE_RUNNER $WINE_PREFIX wine "$installer_path"
     echo "$app_name installation started."
@@ -109,22 +120,22 @@ install_app() {
 
 # Prompt the user for which application(s) to install
 echo "Which application(s) do you want to install?"
-echo "1) Affinity Photo"
-echo "2) Affinity Designer"
+echo "1) Affinity Designer"
+echo "2) Affinity Photo"
 echo "3) Affinity Publisher"
-echo "You can enter multiple numbers separated by spaces (e.g., '1 2', '1 2 3')."
+echo "You can enter multiple numbers separated by spaces (e.g., '1', '1 2', '1 2 3')."
 read -p "Enter your choice (1-3): " choices
 
 # Define paths to installers
 declare -A INSTALLERS
-INSTALLERS["1"]="$WINE_DIR/apps/affinity-photo-msi-2.5.3.exe"
-INSTALLERS["2"]="$WINE_DIR/apps/affinity-designer-msi-2.5.3.exe"
-INSTALLERS["3"]="$WINE_DIR/apps/affinity-publisher-msi-2.5.3.exe"
+INSTALLERS["1"]="$WINE_DIR/apps/affinity-designer-msi-2.5.5.exe"
+INSTALLERS["2"]="$WINE_DIR/apps/affinity-photo-msi-2.5.5.exe"
+INSTALLERS["3"]="$WINE_DIR/apps/affinity-publisher-msi-2.5.5.exe"
 
 # Loop through each choice and install the corresponding application
 for choice in $choices; do
     if [[ -n "${INSTALLERS[$choice]}" ]]; then
-        install_app "Affinity $(case $choice in 1) echo "Photo";; 2) echo "Designer";; 3) echo "Publisher";; esac)" "${INSTALLERS[$choice]}"
+        install_app "Affinity $(case $choice in 1) echo "Designer";; 2) echo "Photo";; 3) echo "Publisher";; esac)" "${INSTALLERS[$choice]}"
     else
         echo "Invalid choice: $choice. Skipping."
     fi
@@ -132,4 +143,4 @@ done
 
 # Finish and prompt user to launch the application
 echo -e "Setup complete.\nNow launch the executable Affinity app with rum..."
-echo "Example: rum $WINE_RUNNER $WINE_PREFIX wine '$WINE_PREFIX/drive_c/Program Files/Affinity/Designer 2/Designer.exe'"
+echo "rum $WINE_RUNNER $WINE_PREFIX wine '$WINE_PREFIX/drive_c/Program Files/Affinity/Designer 2/Designer.exe'"
