@@ -3,8 +3,8 @@
 Name=Affinity Designer 2
 GenericName=Designer on Wine
 Comment=Run Affinity Designer 2 under Wine
-Exec=rum affinity-photo3-wine9.13-part3 /home/USERNAME/.wineAffinity wine '/home/USERNAME/.wineAffinity/drive_c/Program Files/Affinity/Designer 2/Designer.exe'
-Icon=/home/USERNAME/.wineAffinity/drive_c/Program Files/Affinity/Designer 2/designer.svg
+Exec=rum affinity-photo3-wine9.13-part3 $HOME/.wineAffinity wine '$HOME/.wineAffinity/drive_c/Program Files/Affinity/Designer 2/Designer.exe'
+Icon=$HOME/.wineAffinity/drive_c/Program Files/Affinity/Designer 2/designer.svg
 Categories=Graphics
 Keywords=Graphics;2DGraphics;RasterGraphics;VectorGraphics;image;editor;vector;drawing;
 MimeType=application/x-affinity
