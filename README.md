@@ -2,32 +2,39 @@
 
 ![GOD_OF_WINE](./resources/affinity-god-of-wine.png)
 
-This is possible thanks to:
-- [Affinity Wine Docs (by wanesty)](https://affinity.liz.pet/)
-- [Wine patch for Affinity apps (by ElementalWarrior)](https://gitlab.winehq.org/ElementalWarrior/wine/-/commits/affinity-photo3-wine9.13-part3)
-- [WINE (compatibilit layer)](https://www.winehq.org/)
-<!-- - [Video installation (by Mattscreative)](https://www.youtube.com/watch?v=0gB4TdIXCOo) -->
+> [!NOTE] This is possible thanks to:
+> - [Affinity Wine Docs (by wanesty)](https://affinity.liz.pet/)
+> - [Wine patch for Affinity apps (by ElementalWarrior)](https://gitlab.winehq.org/ElementalWarrior/wine/-/commits/affinity-photo3-wine9.13-part3)
+> - [WINE (compatibilit layer)](https://www.winehq.org/)
 
 <!--
 ## Brief intro
-
-The Affinity Suite (Design, Photo, Publisher) is a proprietary design, photo editing and desktop publishing software suite developed for MacOS and Windows by Serif (now a subsidiary of Canva).
-
-These applications are well known for being good alternatives to the Adobe suite such as PhotoShop, Illustrator and InDesign, and sometimes are considered better than well-known open source alternatives such as GIMP and Krita. As these applications were not developed for Linux and the FOSS alternatives are not at the same level, many attempts have been made to install correctly Affinity apps on Linux.
-
-One of the big projects that permit to run Windows software on Linux is [WINE](https://en.wikipedia.org/wiki/Wine_(software)) "a free and open-source compatibility layer to allow application software and computer games developed for Microsoft Windows to run on Unix-like operating systems". WINE is developed using reverse-engineering to avoid copyright issues, and each application has unique dependencies, making configuration complex. To simplify this GUI wine prefixer exist like [Bottles](https://usebottles.com/), [Lutris](https://lutris.net/), [PlayOnLinux](https://www.playonlinux.com/en/), [Winetricks](https://github.com/Winetricks/winetricks). Also tools based on WINE with custom patches, extra libraries and tweaks are needed for specific cases like games with [Proton](https://github.com/ValveSoftware/Proton) and [Proton-GE](https://github.com/GloriousEggroll/proton-ge-custom) and Affinity apps like [ElementalWarrior Wine](https://gitlab.winehq.org/ElementalWarrior/wine/-/commits/affinity-photo3-wine9.13-part3). 
+The Affinity Suite (Design, Photo, Publisher) is a proprietary design, photo editing and desktop publishing software suite developed
+for MacOS and Windows by Serif (now a subsidiary of Canva).
+These applications are well known for being good alternatives to the Adobe suite such as PhotoShop, Illustrator and InDesign, and sometimes
+are considered better than well-known open source alternatives such as GIMP and Krita. As these applications were not developed for Linux
+and the FOSS alternatives are not at the same level, many attempts have been made to install correctly Affinity apps on Linux.
+One of the big projects that permit to run Windows software on Linux is [WINE](https://en.wikipedia.org/wiki/Wine_(software))
+"a free and open-source compatibility layer to allow application software and computer games developed for Microsoft Windows to run on
+Unix-like operating systems". WINE is developed using reverse-engineering to avoid copyright issues, and each application has unique dependencies,
+making configuration complex. To simplify this GUI wine prefixer exist like [Bottles](https://usebottles.com/), [Lutris](https://lutris.net/),
+[PlayOnLinux](https://www.playonlinux.com/en/), [Winetricks](https://github.com/Winetricks/winetricks). Also tools based on WINE with custom patches,
+extra libraries and tweaks are needed for specific cases like games with [Proton](https://github.com/ValveSoftware/Proton) and [Proton-GE](https://github.com/GloriousEggroll/proton-ge-custom)
+and Affinity apps like [ElementalWarrior Wine](https://gitlab.winehq.org/ElementalWarrior/wine/-/commits/affinity-photo3-wine9.13-part3). 
 -->
 
 ## Requeriments
 > [!NOTE]
-> WINE requires Xorg (Window System display server), if you are on Wayland needs the XWayland bridge.
-- Create a folder "WINE" on your $HOME (home/username/WINE) to group content for the script.
-- Download **".exe"** apps from here [Designer](https://store.serif.com/en-us/update/windows/designer/2/), [Photo](https://store.serif.com/en-us/update/windows/photo/2/), [Publisher](https://store.serif.com/en-us/update/windows/publisher/2/) and copy under "$HOME/WINE/apps" directory.
-- Copy WinMetadata directory from Windows 10/11 "C:/windows/system32/WinMetadata" to "WINE" directory.
+> WINE requires Xorg (Window System Display Server), if you use Wayland you need the XWayland bridge.
+- Create a folder to group content on the directory  .
+- Download **".exe"** apps from here [Designer](https://store.serif.com/en-us/update/windows/designer/2/),
+  [Photo](https://store.serif.com/en-us/update/windows/photo/2/), [Publisher](https://store.serif.com/en-us/update/windows/publisher/2/) and copy under the directory "$HOME/WINE/apps".
+- Copy WinMetadata directory from Windows 10/11 "C:\windows\system32\WinMetadata" to the directory "$HOME/WINE".
 
 <details>
-<summary>You should have these folders and files under `/home/Your-Username/WINE`:</summary>
-<pre><code>
+  <summary>You should have these folders and files under `$HOME/WINE`:</summary>
+
+```sh
 ╭─YOUR-USERNAME@SYS in ~/WINE
 ╰─λ tree
 .
@@ -56,77 +63,65 @@ One of the big projects that permit to run Windows software on Linux is [WINE](h
     ├── Windows.UI.winmd
     ├── Windows.UI.Xaml.winmd
     └── Windows.Web.winmd
-</code></pre>
+```
 </details>
 
 ## Installation
 > [!WARNING]
 > Review the bash script and execute at your own risk
 
-This installation is based on [Affinity Wine Docs](https://affinity.liz.pet/docs/1-intro.html) which use [ElementalWarrior's](https://gitlab.winehq.org/ElementalWarrior/wine/-/tree/affinity-photo3-wine9.13-part3) wine fork.
+<!-- This installation is based on [Affinity Wine Docs](https://affinity.liz.pet/docs/1-intro.html) which use
+[ElementalWarrior's](https://gitlab.winehq.org/ElementalWarrior/wine/-/tree/affinity-photo3-wine9.13-part3) wine fork. -->
 
-### 1. WINE with [rum](https://gitlab.com/xkero/rum) (recommended)
-
-> [!NOTE]
-> For Affinity Photo under Arch just run [affinity-photo-wine-rum-archlinux.sh](./scripts/affinity-photo-wine-rum-archlinux.sh) or try the [PKGBUILD](./arch-affinity-photo/)
-
-- For the Affinity suite apps under Arch, Debian, Fedora or OpenSUSE download and execute the script [affinity-wine-rum.sh](./scripts/affinity-wine-rum.sh) running `sh ./scripts/affinity-wine-rum.sh`.
-
+<details>
+  <summary>
+    <b>1. WINE with <a href="https://gitlab.com/xkero/rum">rum</a> (recommended)</b>
+  </summary>
+  <ul>
+    <li>For Arch, Debian, Fedora or OpenSUSE download and execute the script
+    <a href="./scripts/affinity-wine-rum.sh">affinity-wine-rum.sh</a>
+    running <code>sh ./scripts/affinity-wine-rum.sh</code>.</li>
+  </ul>
+</details>
 <details>
   <summary>
     <b>2. Use WINE with <a href="https://usebottles.com/">Bottles</a> (not working)</b>
   </summary>
-  <div>
-    <ul>
-    <li>Option A. Do it manually, via scripts CLI.
-        <ul>
-          <li>Compile manually ElementalWarior WINE:
-            <pre>
-              <code class="lang-sh">
-                git clone https://gitlab.winehq.org/ElementalWarrior/wine.git "$HOME/WINE/ElementalWarrior-wine"
-                cd $HOME/WINE/ElementalWarrior-wine
-                git switch affinity-photo3-wine9.13-part3
-                mkdir -p winewow64-build/ wine-install/
-                cd winewow64-build
-                ../configure --prefix="$HOME/WINE/ElementalWarrior-wine/wine-install" --enable-archs=i386,x86_64
-                make --jobs 4
-                make install
-              </code>
-            </pre>
-          </li>
-          <li>Install <a href="https://flathub.org/apps/com.usebottles.bottles">Bottles from FlatHub</a> if you don&#39;t have it, you need flatpak <code>flatpak install flathub com.usebottles.bottles</code>.</li>
-          <li>Add the compiled Wine build as a &quot;runner&quot; in Bottles to this directory
-          <pre>
-            <code>
-              mkdir -p "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3"
-              cp -r "$HOME/WINE/ElementalWarrior-wine/wine-install" "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3/"
-            </code>
-          </pre>
-          </li>
-          <li>Open &quot;Bottles&quot; and create a bottle using the &quot;affinity-photo3-wine9.13-part3&quot; runner.</li>
-          <li>
-            Install winetricks with your package manager and add &quot;dotnet48&quot; running on a terminal
-            <code>WINEPREFIX="$HOME/.var/app/com.usebottles.bottles/data/bottles/bottles/[bottle-name]" winetricks dotnet48</code>. Replace [bottle-name] with the name of your bottle.
-          </li>
-          <li>Install allfonts dependency from Bottles.</li>
-          <li>Set the &quot;Windows Version&quot; back to win10.</li>
-        </ul>
-      </li>
-    </ul>
-    <ul>
-      <li>Option B. Execute the script <a href="./scripts/affinity-wine-bottles.sh">affinity-wine-bottles.sh</a> running <code>sh ./scripts/affinity-wine-bottles.sh</code></li>
-    </ul>
-  </div>
+
+* Option A. Do it manually, via scripts CLI.
+    * Compile manually ElementalWarior WINE:
+  ```sh
+  git clone https://gitlab.winehq.org/ElementalWarrior/wine.git "$HOME/WINE/ElementalWarrior-wine"
+  cd $HOME/WINE/ElementalWarrior-wine
+  git switch affinity-photo3-wine9.13-part3
+  mkdir -p winewow64-build/ wine-install/
+  cd winewow64-build
+  ../configure --prefix="$HOME/WINE/ElementalWarrior-wine/wine-install" --enable-archs=i386,x86_64
+  make --jobs 4
+  make install
+  ```
+  - Install [Bottles from FlatHub](https://flathub.org/apps/com.usebottles.bottles) as `flatpak install flathub com.usebottles.bottles`.
+  - Add the compiled Wine build as a runner in Bottles to this directory.
+  ```sh
+  mkdir -p "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3"
+  cp -r "$HOME/WINE/ElementalWarrior-wine/wine-install" "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3/"
+  ```
+  * Open "Bottles" and create a bottle using the `affinity-photo3-wine9.13-part3` runner.
+  * Install winetricks with your package manager and add "dotnet48" running `WINEPREFIX="$HOME/.var/app/com.usebottles.bottles/data/bottles/bottles/[bottle-name]" winetricks dotnet48`.
+  * Install allfonts dependency from Bottles.
+  * Set the "Windows Version" back to win10.
+
+* Option B. Execute the script [affinity-wine-bottles.sh](./scripts/affinity-wine-bottles.sh) running `sh ./scripts/affinity-wine-bottles.sh`
 </details>
 
 
 ## Extra: create desktop shortcut
 
-> If are using bottles the command to launch the app won't work, you need to adapt it or launch from Bottles.
-
-Modify [designer.desktop](./resources/designer.desktop), [photo.desktop](./resources/photo.desktop), [publisher.desktop](./resources/publisher.desktop):
-- Change "$HOME" by your path "/home/username" (quick method search & replace in vscode)
-- Add the icon (svg or png) to the path of the installation. (You can copy icons from here [resources](./resources/))
+> The desktop shortcut only works for rum
+- Create desktop shortcuts to launch the apps from your desktop environment and modify the icon and app path to your case. Here are the three Affinity shortcut apps:
+  - [designer.desktop](./resources/designer.desktop)
+  - [photo.desktop](./resources/photo.desktop)
+  - [publisher.desktop](./resources/publisher.desktop)
 
 
 ## More
