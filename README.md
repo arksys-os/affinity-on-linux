@@ -1,6 +1,6 @@
 # Affinity on Linux
 
-![GOD_OF_WINE](./img/affinity-god-of-wine.png)
+![GOD_OF_WINE](./resources/affinity-god-of-wine.png)
 
 This is possible thanks to:
 - [Affinity Wine Docs (by wanesty)](https://affinity.liz.pet/)
@@ -124,9 +124,9 @@ This installation is based on [Affinity Wine Docs](https://affinity.liz.pet/docs
 
 > If are using bottles the command to launch the app won't work, you need to adapt it or launch from Bottles.
 
-Modify [designer.desktop](./desktop/designer.desktop), [photo.desktop](./desktop/photo.desktop), [publisher.desktop](./desktop/publisher.desktop):
+Modify [designer.desktop](./resources/designer.desktop), [photo.desktop](./resources/photo.desktop), [publisher.desktop](./resources/publisher.desktop):
 - Change "$HOME" by your path "/home/username" (quick method search & replace in vscode)
-- Add the icon (svg or png) to the path of the installation. (You can copy icons from here [img](./img/))
+- Add the icon (svg or png) to the path of the installation. (You can copy icons from here [resources](./resources/))
 
 
 ## More
