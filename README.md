@@ -1,8 +1,9 @@
 # Affinity on Linux
 
-![GOD_OF_WINE](./resources/affinity-god-of-wine.png)
+![GOD_OF_WINE](./resources/affinity_god_of_wine.png)
 
 > [!NOTE] This is possible thanks to:
+>
 > - [Affinity Wine Docs (by wanesty)](https://affinity.liz.pet/)
 > - [Wine patch for Affinity apps (by ElementalWarrior)](https://gitlab.winehq.org/ElementalWarrior/wine/-/commits/affinity-photo3-wine9.13-part3)
 > - [WINE (compatibilit layer)](https://www.winehq.org/)
@@ -24,8 +25,10 @@ and Affinity apps like [ElementalWarrior Wine](https://gitlab.winehq.org/Element
 -->
 
 ## Requeriments
+>
 > [!NOTE]
 > WINE requires Xorg (Window System Display Server), if you use Wayland you need the XWayland bridge.
+>
 - Create a folder to group content on the directory  .
 - Download **".exe"** apps from here [Designer](https://store.serif.com/en-us/update/windows/designer/2/),
   [Photo](https://store.serif.com/en-us/update/windows/photo/2/), [Publisher](https://store.serif.com/en-us/update/windows/publisher/2/) and copy under the directory "$HOME/WINE/apps".
@@ -64,9 +67,11 @@ and Affinity apps like [ElementalWarrior Wine](https://gitlab.winehq.org/Element
     ├── Windows.UI.Xaml.winmd
     └── Windows.Web.winmd
 ```
+
 </details>
 
 ## Installation
+>
 > [!WARNING]
 > Review the bash script and execute at your own risk
 
@@ -79,8 +84,9 @@ and Affinity apps like [ElementalWarrior Wine](https://gitlab.winehq.org/Element
   </summary>
   <ul>
     <li>For Arch, Debian, Fedora or OpenSUSE download and execute the script
-    <a href="./scripts/affinity-wine-rum.sh">affinity-wine-rum.sh</a>
-    running <code>sh ./scripts/affinity-wine-rum.sh</code>.</li>
+      <a href="./scripts/affinity-wine-rum.sh">affinity-wine-rum.sh</a>
+      running <code>sh ./scripts/affinity-wine-rum.sh</code>.
+    </li>
   </ul>
 </details>
 <details>
@@ -88,8 +94,9 @@ and Affinity apps like [ElementalWarrior Wine](https://gitlab.winehq.org/Element
     <b>2. Use WINE with <a href="https://usebottles.com/">Bottles</a> (not working)</b>
   </summary>
 
-* Option A. Do it manually, via scripts CLI.
-    * Compile manually ElementalWarior WINE:
+- Option A. Do it manually, via scripts CLI.
+  - Compile manually ElementalWarior WINE:
+
   ```sh
   git clone https://gitlab.winehq.org/ElementalWarrior/wine.git "$HOME/WINE/ElementalWarrior-wine"
   cd $HOME/WINE/ElementalWarrior-wine
@@ -100,31 +107,35 @@ and Affinity apps like [ElementalWarrior Wine](https://gitlab.winehq.org/Element
   make --jobs 4
   make install
   ```
+
   - Install [Bottles from FlatHub](https://flathub.org/apps/com.usebottles.bottles) as `flatpak install flathub com.usebottles.bottles`.
   - Add the compiled Wine build as a runner in Bottles to this directory.
+
   ```sh
   mkdir -p "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3"
   cp -r "$HOME/WINE/ElementalWarrior-wine/wine-install" "$HOME/.var/app/com.usebottles.bottles/data/bottles/runners/affinity-photo3-wine9.13-part3/"
   ```
-  * Open "Bottles" and create a bottle using the `affinity-photo3-wine9.13-part3` runner.
-  * Install winetricks with your package manager and add "dotnet48" running `WINEPREFIX="$HOME/.var/app/com.usebottles.bottles/data/bottles/bottles/[bottle-name]" winetricks dotnet48`.
-  * Install allfonts dependency from Bottles.
-  * Set the "Windows Version" back to win10.
 
-* Option B. Execute the script [affinity-wine-bottles.sh](./scripts/affinity-wine-bottles.sh) running `sh ./scripts/affinity-wine-bottles.sh`
+  - Open "Bottles" and create a bottle using the `affinity-photo3-wine9.13-part3` runner.
+  - Install winetricks with your package manager and add "dotnet48" running `WINEPREFIX="$HOME/.var/app/com.usebottles.bottles/data/bottles/bottles/[bottle-name]" winetricks dotnet48`.
+  - Install allfonts dependency from Bottles.
+  - Set the "Windows Version" back to win10.
+
+- Option B. Execute the script [affinity-wine-bottles.sh](./scripts/affinity-wine-bottles.sh) running `sh ./scripts/affinity-wine-bottles.sh`
+
 </details>
-
 
 ## Extra: create desktop shortcut
 
 > The desktop shortcut only works for rum
+
 - Create desktop shortcuts to launch the apps from your desktop environment and modify the icon and app path to your case. Here are the three Affinity shortcut apps:
   - [designer.desktop](./resources/designer.desktop)
   - [photo.desktop](./resources/photo.desktop)
   - [publisher.desktop](./resources/publisher.desktop)
 
-
 ## More
+
 - [Affinity Photo - WineHQ AppDB](https://appdb.winehq.org/objectManager.php?sClass=application&iId=18332)
 - [ Affinity Suite V2 on Linux [Wine] - Affinity Forum](https://forum.affinity.serif.com/index.php?/topic/182758-affinity-suite-v2-on-linux-wine/page/25/)
 - [Affinity running on Linux with Bottles - Affinity Forum](https://forum.affinity.serif.com/index.php?/topic/166159-affinity-photo-running-on-linux-with-bottles/page/8/)

@@ -1,9 +1,10 @@
+#!/usr/bin/env xdg-open
 [Desktop Entry]
 Name=Affinity Photo 2
 GenericName=Photo on Wine
 Comment=Run Affinity Photo 2 under Wine
-Exec=rum affinity-photo3-wine9.13-part3 $HOME/.wineAffinity wine '$HOME/.wineAffinity/drive_c/Program Files/Affinity/Photo 2/Photo.exe'
-Icon=$HOME/.wineAffinity/drive_c/Program Files/Affinity/Photo 2/photo.svg
+Exec=rum affinity-photo3-wine9.13-part3 /home/d7/.wineAffinity wine '/home/d7/.wineAffinity/drive_c/Program Files/Affinity/Photo 2/Photo.exe'
+Icon=/home/d7/.wineAffinity/drive_c/Program Files/Affinity/Photo 2/affinity-photo.svg
 Categories=Graphics
 Keywords=Graphics;2DGraphics;RasterGraphics;VectorGraphics;image;editor;vector;drawing;
 MimeType=application/x-affinity
