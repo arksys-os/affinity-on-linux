@@ -2,6 +2,8 @@
 
 ![GOD_OF_WINE](./resources/affinity_god_of_wine.png)
 
+---
+
 >
 > [!NOTE] This is possible thanks to:
 >
@@ -24,13 +26,15 @@ making configuration complex. To simplify this GUI wine prefixer exist like [Bot
 > [!NOTE]
 > WINE requires Xorg (Window System Display Server), if you use Wayland you need the XWayland bridge.
 >
-- Create a directory "~/WINE" to group the content.
-- Download inside "~/WINE" the **".exe"** apps from here [Designer](https://store.serif.com/en-us/update/windows/designer/2/),
-  [Photo](https://store.serif.com/en-us/update/windows/photo/2/), [Publisher](https://store.serif.com/en-us/update/windows/publisher/2/) and copy under the directory "$HOME/WINE/apps".
-- Copy WinMetadata directory from Windows 10/11 "C:\windows\system32\WinMetadata" to the directory "$HOME/WINE".
 
 <details>
-  <summary>You should have these folders and files under `$HOME/WINE`:</summary>
+  <summary>Now requirements are installed automaticallys via script. These are the necessary things:</summary>
+  <li>Create a directory "~/WINE" to group the content</li>
+  <li>Download inside "~/WINE" the **".exe"** apps from here <a href="https://store.serif.com/en-us/update/windows/designer/2/),
+  [Photo](https://store.serif.com/en-us/update/windows/designer/2/">Designer</a>, <a href="https://store.serif.com/en-us/update/windows/designer/2/),
+  [Photo](https://store.serif.com/en-us/update/windows/photo/2/">Photo</a>, <a href="https://store.serif.com/en-us/update/windows/designer/2/),
+  [Photo](https://store.serif.com/en-us/update/windows/publsher/2/">Publisher</a> and copy under the directory "$HOME/WINE/apps".</li>
+  <li>Copy WinMetadata directory from Windows 10/11 "C:\windows\system32\WinMetadata" to the directory "$HOME/WINE". You should have these directory tree.</li>
 
 ```sh
 ╭─YOUR-USERNAME@SYS in ~/WINE
@@ -70,11 +74,11 @@ making configuration complex. To simplify this GUI wine prefixer exist like [Bot
 > [!WARNING]
 > Review the bash script and execute at your own risk
 
-1. WINE with [rum](https://gitlab.com/xkero/rum) (recommended)
-    - For Arch, Debian, Fedora or OpenSUSE download and execute the script [affinity-wine-rum.sh](./scripts/affinity-wine-rum.sh") running `sh ./scripts/affinity-wine-rum.sh`.
+1. WINE with [rum](https://gitlab.com/xkero/rum), [a small wineprefix script](./WINE/rum/rum) (recommended), compatible with Arch, Debian, Fedora and OpenSUSE.
+    - Download and execute the script [affinity-wine-rum.sh](./scripts/affinity-wine-rum.sh") running `sh ./scripts/affinity-wine-rum.sh`.
 
-2. Use WINE with [Bottles](https://usebottles.com/) (not working)
-    - Execute the script [affinity-wine-bottles.sh](./scripts/affinity-wine-bottles.sh) running `sh ./scripts/affinity-wine-bottles.sh`
+2. WINE with [Bottles](https://usebottles.com/) (not working)
+    - Download and execute the script [affinity-wine-bottles.sh](./scripts/affinity-wine-bottles.sh) running `sh ./scripts/affinity-wine-bottles.sh`
 
 ## Extra: create desktop shortcut
 
