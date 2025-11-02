@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+
 # Script to install Affinity Photo on Arch Linux
 # Adapted from: https://codeberg.org/Wanesty/affinity-wine-docs
 #
@@ -56,6 +56,102 @@ WINE_RUNNER="affinity-photo3-wine9.13-part3"
 RUM_DIR="$WINE_DIR/rum"
 RUM_BIN="/usr/local/bin/rum"
 
+# Defaults for automated downloads
+VERSION="2.6.5"
+# store downloads under the user's Downloads/Affinity directory instead of $WINE_DIR
+DOWNLOAD_DIR="$FULL_PATH/Downloads/Affinity"
+# Path where some users keep wine prefixes created by wine-prefix-manager / bottles
+# Default can be overridden by env var WINPREFIX_PATH
+WINPREFIX_PATH="${WINPREFIX_PATH:-$FULL_PATH/.local/share/wine/prefixes/affinity}"
+
+# Ensure download dir exists
+mkdir -p "$DOWNLOAD_DIR"
+
+# Fetch the MSI/EXE/MSIX download URL from Serif's update page for a product and download it.
+# Arguments: product (designer|photo|publisher)
+fetch_affinity_installer() {
+    # simplified installer selector: prefer second anchor in download-alternates (MSI/EXE)
+    local product="$1"
+    local page="https://store.serif.com/en-us/update/windows/${product}/2/"
+    echo "Looking up download URL for $product on $page"
+
+    local html url filename outpath
+    if command -v curl >/dev/null 2>&1; then
+        html=$(curl -sL "$page") || { echo "Failed to fetch page: $page" >&2; return 1; }
+    elif command -v wget >/dev/null 2>&1; then
+        html=$(wget -q -O- "$page") || { echo "Failed to fetch page: $page" >&2; return 1; }
+    else
+        echo "curl or wget required to fetch update page" >&2
+        return 10
+    fi
+
+    # pick the second href inside the download-alternates block (common layout: MSIX then MSI/EXE)
+    url=$(echo "$html" | sed -n '/download-alternates/,/<\/div>/p' \
+        | grep -oE 'href="[^"]+"' \
+        | sed 's/^href="//;s/"$//' \
+        | sed -n '2p' || true)
+
+    # fallback: scan for affinity-<product> links and pick first MSI/EXE candidate
+    if [ -z "$url" ]; then
+        url=$(echo "$html" | grep -oE "https?://[^\"']*affinity-${product}[^\"']*\.(exe|msi)(\?[^\"']*)?" | head -n1 || true)
+        if [ -z "$url" ]; then
+            url=$(echo "$html" | grep -oE "https?://[^\"']*affinity-${product}[^\"']*\.(msix)(\?[^\"']*)?" | head -n1 || true)
+        fi
+    fi
+
+    if [ -z "$url" ]; then
+        echo "Could not find a direct MSI/EXE/MSIX link for $product on $page" >&2
+        return 2
+    fi
+
+    # unescape and print
+    url=$(echo "$url" | sed 's/&amp;/\&/g')
+    echo "Chosen download URL: $url"
+
+    filename=$(basename "${url%%\?*}")
+    outpath="$DOWNLOAD_DIR/$filename"
+    mkdir -p "$(dirname "$outpath")"
+    if [ -f "$outpath" ]; then
+        echo "Installer already downloaded: $outpath"
+        return 0
+    fi
+
+    echo "Downloading $url -> $outpath"
+    if command -v curl >/dev/null 2>&1; then
+        curl -L --fail --output "$outpath" "$url" || { echo "Download failed" >&2; rm -f "$outpath"; return 3; }
+    else
+        wget -c -O "$outpath" "$url" || { echo "Download failed" >&2; rm -f "$outpath"; return 3; }
+    fi
+
+    echo "Downloaded: $outpath (size: $(du -h "$outpath" | cut -f1))"
+    return 0
+}
+
+# Download and install WinMetadata into the target wine prefix system32 directory
+install_winmetadata() {
+    local target_dir="$WINPREFIX_PATH/drive_c/windows/system32/"
+    mkdir -p "$target_dir"
+    pushd "$target_dir" >/dev/null || return 1
+    if [ -d "WinMetadata" ] && [ $(ls -A WinMetadata | wc -l) -gt 0 ]; then
+        echo "WinMetadata already present in $target_dir, skipping download."
+        popd >/dev/null
+        return 0
+    fi
+
+    echo "Downloading WinMetadata.zip into $target_dir"
+    if ! wget -c https://archive.org/download/win-metadata/WinMetadata.zip -O WinMetadata.zip; then
+        echo "Failed to download WinMetadata.zip"
+        popd >/dev/null
+        return 2
+    fi
+    echo "Unzipping WinMetadata.zip"
+    unzip -o WinMetadata.zip || { echo "Unzip failed"; popd >/dev/null; return 3; }
+    rm -f WinMetadata.zip
+    echo "WinMetadata installed into $target_dir"
+    popd >/dev/null
+    return 0
+}
+
 # Update and install dependencies
 echo "Updating system and installing necessary dependencies..."
 install_dependencies || { echo "Failed to install dependencies"; exit 1; }
@@ -77,20 +173,50 @@ else
     echo "Rum is already installed in /usr/local/bin."
 fi
 
-# Clone and compile ElementalWarrior's Wine fork if not already done
-WINE_SRC_DIR="$WINE_DIR/ElementalWarrior-wine"
-if [ ! -d "$WINE_SRC_DIR" ]; then
-    echo "Cloning ElementalWarrior's Wine fork..."
-    git clone https://gitlab.winehq.org/ElementalWarrior/wine.git "$WINE_SRC_DIR"
-    cd "$WINE_SRC_DIR" || exit
-    git switch affinity-photo3-wine9.13-part3
-    mkdir -p winewow64-build/ wine-install/
-    cd winewow64-build || exit
-    ../configure --prefix="$WINE_SRC_DIR/wine-install" --enable-archs=i386,x86_64
-    make --jobs 4
-    make install
+# The original script cloned and compiled ElementalWarrior's Wine fork here.
+# Manual compilation is commented out. Instead we download a prebuilt ElementalWarrior Wine
+# tarball from the AffinityOnLinux releases and extract it to /opt/wines/$WINE_RUNNER.
+# If you prefer to compile from source, uncomment the section below and adjust as needed.
+
+# Disabled compilation block (kept for reference):
+# WINE_SRC_DIR="$WINE_DIR/ElementalWarrior-wine"
+# if [ ! -d "$WINE_SRC_DIR" ]; then
+#     echo "Cloning ElementalWarrior's Wine fork..."
+#     git clone https://gitlab.winehq.org/ElementalWarrior/wine.git "$WINE_SRC_DIR"
+#     cd "$WINE_SRC_DIR" || exit
+#     git switch affinity-photo3-wine9.13-part3
+#     mkdir -p winewow64-build/ wine-install/
+#     cd winewow64-build || exit
+#     ../configure --prefix="$WINE_SRC_DIR/wine-install" --enable-archs=i386,x86_64
+#     make --jobs 4
+#     make install
+# else
+#     echo "Wine source already exists. Skipping cloning and building."
+# fi
+
+# Use prebuilt ElementalWarrior Wine tarball from releases
+PREBUILT_URL="https://github.com/seapear/AffinityOnLinux/releases/download/Legacy/ElementalWarriorWine-x86_64.tar.gz"
+PREBUILT_TGZ="$DOWNLOAD_DIR/ElementalWarriorWine-x86_64.tar.gz"
+TARGET_DIR="/opt/wines/$WINE_RUNNER"
+
+if [ -d "$TARGET_DIR" ]; then
+    echo "Prebuilt Wine already exists at $TARGET_DIR. Skipping download."
 else
-    echo "Wine source already exists. Skipping cloning and building."
+    echo "Downloading prebuilt ElementalWarrior Wine from $PREBUILT_URL"
+    mkdir -p "$DOWNLOAD_DIR"
+    if command -v wget >/dev/null 2>&1; then
+        wget -c -O "$PREBUILT_TGZ" "$PREBUILT_URL" || { echo "Failed to download prebuilt Wine"; exit 1; }
+    elif command -v curl >/dev/null 2>&1; then
+        curl -L --fail -o "$PREBUILT_TGZ" "$PREBUILT_URL" || { echo "Failed to download prebuilt Wine"; exit 1; }
+    else
+        echo "Neither wget nor curl available to download prebuilt Wine. Please install one or provide the build at $TARGET_DIR" >&2
+        exit 1
+    fi
+
+    echo "Extracting prebuilt Wine to $TARGET_DIR"
+    sudo mkdir -p "$TARGET_DIR"
+    sudo tar -xzf "$PREBUILT_TGZ" -C "$TARGET_DIR" --strip-components=0 || { echo "Failed to extract prebuilt Wine"; exit 1; }
+    echo "Prebuilt Wine extracted to $TARGET_DIR"
 fi
 
 # Copy the compiled Wine build to /opt/wines
@@ -105,9 +231,19 @@ rum "$WINE_RUNNER" "$WINE_PREFIX" wineboot --init
 rum "$WINE_RUNNER" "$WINE_PREFIX" winetricks dotnet48 corefonts
 rum "$WINE_RUNNER" "$WINE_PREFIX" winecfg -v win11
 
-# Copy WinMetadata files
-echo "Copying WinMetadata files..."
-cp -r $WINE_DIR/WinMetadata/ "$WINE_PREFIX/drive_c/windows/system32/WinMetadata"
+# Ensure WinMetadata is installed into the target prefix (try automatic download if needed)
+echo "Ensuring WinMetadata is present in target prefix ($WINPREFIX_PATH)..."
+if install_winmetadata; then
+    echo "WinMetadata ready."
+else
+    echo "Warning: install_winmetadata reported an error. If you already have WinMetadata, ensure it's copied to $WINE_PREFIX/drive_c/windows/system32/WinMetadata"
+fi
+
+# Attempt to auto-download Affinity installers (best-effort). This will fill $DOWNLOAD_DIR.
+echo "Attempting to auto-download Affinity installers (designer/photo/publisher) into $DOWNLOAD_DIR..."
+for p in designer photo publisher; do
+    fetch_affinity_installer "$p" || echo "Auto-download for $p failed or not found; you can place the installer under $WINE_DIR/apps/"
+done
 
 # Function to select which Affinity applications to install
 install_app() {
@@ -126,11 +262,25 @@ echo "3) Affinity Publisher"
 echo "You can enter multiple numbers separated by spaces (e.g., '1', '1 2', '1 2 3')."
 read -p "Enter your choice (1-3): " choices
 
-# Define paths to installers
+# Define paths to installers (prefer downloaded files in $DOWNLOAD_DIR, fallback to $WINE_DIR/apps)
+DESIGNER_INST=$(ls -1 "$DOWNLOAD_DIR"/affinity-designer* 2>/dev/null | head -n1)
+PHOTO_INST=$(ls -1 "$DOWNLOAD_DIR"/affinity-photo* 2>/dev/null | head -n1)
+PUBLISHER_INST=$(ls -1 "$DOWNLOAD_DIR"/affinity-publisher* 2>/dev/null | head -n1)
+
+if [ -z "$DESIGNER_INST" ]; then
+    DESIGNER_INST="$WINE_DIR/apps/affinity-designer-msi-$VERSION.exe"
+fi
+if [ -z "$PHOTO_INST" ]; then
+    PHOTO_INST="$WINE_DIR/apps/affinity-photo-msi-$VERSION.exe"
+fi
+if [ -z "$PUBLISHER_INST" ]; then
+    PUBLISHER_INST="$WINE_DIR/apps/affinity-publisher-msi-$VERSION.exe"
+fi
+
 declare -A INSTALLERS
-INSTALLERS["1"]="$WINE_DIR/apps/affinity-designer-msi-2.5.5.exe"
-INSTALLERS["2"]="$WINE_DIR/apps/affinity-photo-msi-2.5.5.exe"
-INSTALLERS["3"]="$WINE_DIR/apps/affinity-publisher-msi-2.5.5.exe"
+INSTALLERS["1"]="$DESIGNER_INST"
+INSTALLERS["2"]="$PHOTO_INST"
+INSTALLERS["3"]="$PUBLISHER_INST"
 
 # Loop through each choice and install the corresponding application
 for choice in $choices; do
