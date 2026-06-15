@@ -1,4 +1,4 @@
-# Affinity on Linux <img src="./resources/affinity-studio.svg" alt="Affinity icon" width="32" height="32" align="center">
+# <img src="./resources/affinity-studio.svg" alt="Affinity icon" width="32" height="32" align="center"> Affinity on Linux
 
 ![GOD_OF_WINE](./resources/affinity_god_of_wine.png)
 
